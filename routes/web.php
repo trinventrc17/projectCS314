@@ -39,6 +39,9 @@ Route::group(['middleware' => 'auth'], function () {
     //Excel Reports
     Route::get('ExportReports','ExcelReports@ExportReports');
         Route::get('/printables/index/sales','ExcelReports@salesIndex');
+        Route::get('/printables/index/sales/salesCustomizedFilter','ExcelReports@salesCustomizedFilter');
+        Route::get('/printables/index/sales/salesDefaultFilter','ExcelReports@salesDefaultFilter');
+            Route::get('/printables/index/sales/salesExcelPrintable','ExcelReports@salesExcelPrintable');
 
     //Room Changes
     Route::post('/roomchanges/{id}/updateRoom','RoomChangesController@updateRoom');

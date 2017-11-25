@@ -24,7 +24,7 @@
                     <li><a href="{{ url('posrooms') }}">Rooms</a></li>
                     <li><a href="{{ url('products') }}">Products</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Printables <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Exportables <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ url('/printables/index/sales') }}">Sales</a></li>
                             <li><a href="{{ url('inventories/adjustments') }}">Earnings and Expenses</a></li>
