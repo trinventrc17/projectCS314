@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 
 
-Route::get('ExportReports','ExcelReports@ExportReports');
+
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('posrooms', 'CustomerController');
@@ -32,8 +32,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('users', 'UserController');
     Route::resource('expenses', 'ExpensesController');
     Route::resource('stocks', 'StocksController');
+    Route::resource('roomchanges', 'RoomChangesController');
 
 
+
+    //Excel Reports
+    Route::get('ExportReports','ExcelReports@ExportReports');
+        Route::get('/printables/index/sales','ExcelReports@salesIndex');
+
+    //Room Changes
+    Route::post('/roomchanges/{id}/updateRoom','RoomChangesController@updateRoom');
+        Route::post('/rooms/{id}/roomChangesSale','RoomChangesController@roomChangesSale');
+
+    //Additional Room Sales
+    Route::post('/rooms/{id}/additionalSale','RoomController@additionalSale');
 
     Route::get('/stocks/addFromExisting/addFromExisting','StocksController@addFromExisting');
      Route::get('/stocks/ask/ask','StocksController@ask');
@@ -66,6 +78,7 @@ Route::group(['middleware' => 'auth'], function () {
                 
         Route::get('/rooms/{id}/reserve','RoomController@reserve');
             Route::post('/rooms/{id}/walkinsales','RoomController@walkinSale');
+            Route::post('/rooms/{id}/additionalSale','RoomController@additionalSale');
             Route::get('/rooms/{id}/walkin/sales','RoomController@roomSales');
 
         Route::get('/rooms/{id}/roomDetailsAndReceipt/','RoomController@roomDetailsAndReceipt');

@@ -102,34 +102,7 @@ export default {
     data() {
         return {
             cart: [
-                    {
-                     id:this.price[0].sendId,
-                     name:'Items Will be Added Here',
-                     quantity:this.price[0].numberOfMoviesOrHour,
-                     price:this.price[0].roomPrice,
-                     barcode:this.price[0].session
-                    },
-                    {
-                     id:this.price[0].additionalTimeFeeId,
-                     name:'Scroll Down to See Added Items',
-                     quantity:1,
-                     price:this.price[0].additionalTimeFee,
-                     barcode:this.price[0].session
-                    },
-                    {
-                     id:this.price[0].corkageFeeId,
-                     name:'Tap Item to Reduce Quantity',
-                     quantity:1,
-                     price:this.price[0].corkageFee,
-                     barcode:this.price[0].session
-                    },
-                    {
-                     id:this.price[0].numberOfExtraPersonId,
-                     name:'--------------------------------',
-                     quantity:this.price[0].numberOfExtraPerson,
-                     price:30,
-                     barcode:this.price[0].session
-                    },
+
                  ],
             
             categories: [],
@@ -196,34 +169,7 @@ export default {
         deleteItemFromCart: function(item) {
             this.cart.splice(item)
             this.cart = [
-                   {
-                     id:this.price[0].sendId,
-                     name:'--------------------------------',
-                     quantity:this.price[0].numberOfMoviesOrHour,
-                     price:this.price[0].roomPrice,
-                     barcode:this.price[0].session
-                    },
-                    {
-                     id:this.price[0].additionalTimeFeeId,
-                     name:'--------------------------------',
-                     quantity:1,
-                     price:this.price[0].additionalTimeFee,
-                     barcode:this.price[0].session
-                    },
-                    {
-                     id:this.price[0].corkageFeeId,
-                     name:'--------------------------------',
-                     quantity:1,
-                     price:this.price[0].corkageFee,
-                     barcode:this.price[0].session
-                    },
-                    {
-                     id:this.price[0].numberOfExtraPersonId,
-                     name:'--------------------------------',
-                     quantity:this.price[0].numberOfExtraPerson,
-                     price:30,
-                     barcode:this.price[0].session
-                    },
+
                  ]
         },
 
@@ -237,34 +183,7 @@ export default {
                 });
 
                 this.cart = [
-                   {
-                     id:this.price[0].sendId,
-                     name:'--------------------------------',
-                     quantity:this.price[0].numberOfMoviesOrHour,
-                     price:this.price[0].roomPrice,
-                     barcode:this.price[0].session
-                    },
-                    {
-                     id:this.price[0].additionalTimeFeeId,
-                     name:'--------------------------------',
-                     quantity:1,
-                     price:this.price[0].additionalTimeFee,
-                     barcode:this.price[0].session
-                    },
-                    {
-                     id:this.price[0].corkageFeeId,
-                     name:'--------------------------------',
-                     quantity:1,
-                     price:this.price[0].corkageFee,
-                     barcode:this.price[0].session
-                    },
-                    {
-                     id:this.price[0].numberOfExtraPersonId,
-                     name:'--------------------------------',
-                     quantity:this.price[0].numberOfExtraPerson,
-                     price:30,
-                     barcode:this.price[0].session
-                    },
+
                  ]
             }
         },

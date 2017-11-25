@@ -18,12 +18,15 @@
                     </thead>
                     <tbody>
                     @foreach($sale->items as $item)
+                        @if($item->price == 0 || $item->quantity == 0)
+                        @else
                             <tr>
                                 <td>{{ $item->product->name }}</td>
                                 <td> {{ $item->quantity }}</td>
                                 <td>₱ {{ number_format($item->price,2) }}</td>
                                 <td>₱ {{ number_format($item->quantity * $item->price,2) }}</td>
                             </tr>
+                        @endif
                     @endforeach
                             <tr>
                                 <td></td>

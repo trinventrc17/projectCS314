@@ -29,12 +29,16 @@
                                 <li style="color:black">{{$room->status}}</li>
                                 @php ($i = 0)
                                 @foreach ($sales as $key => $sale)
-                                    @if($sale->session == $room->session && $i == 0)
-                                        @php ($i = 1)                                  
-                                     <li style="color:black">{{$sale->startTime}} - {{$sale->endTime}}</li>
+                                    @if($sale->session == $room->session)
+                                        @php ($i = $key)
                                     @else
                                     @endif
-                                @endforeach    
+                                @endforeach
+                              @if($i !=0)  
+                             <li style="color:black">{{$sales[$i]->startTime}} - {{$sale->endTime}}</li>
+                             @else
+                             @endif
+
                         </div> <!-- end-well -->
                     </div> <!-- end-col -->
                     </a>

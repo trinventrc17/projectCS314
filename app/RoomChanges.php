@@ -5,7 +5,7 @@ namespace App;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-class Sale extends Model
+class RoomChanges extends Model
 {
     public $invoice_prefix = 'INV';
 
@@ -94,10 +94,10 @@ class Sale extends Model
                 return new SaleItem($item);
             });
 
-            $sales = self::create($input_form);
-            $sales->items()->saveMany($items);
+            $roomChanges = self::create($input_form);
+            $roomChanges->items()->saveMany($items);
 
-            $trackings = $sales->items->each(function ($item) use ($input_form) {
+            $trackings = $roomChanges->items->each(function ($item) use ($input_form) {
                 $tracking = new InventoryTracking([
                     'user_id'    => $input_form['cashier_id'],
                     'product_id' => $item['product_id'],
@@ -112,7 +112,7 @@ class Sale extends Model
                 $item->trackings()->save($tracking);
             });
 
-            return $sales;
+            return $roomChanges;
         });
     }
 

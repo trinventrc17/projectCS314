@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Expenses;
+use App\SaleItem;
 use App\Http\Requests;
 
 
@@ -11,7 +12,7 @@ class ExpensesController extends Controller
     public function index()
     {
         $data = [
-            'expenses' => Expenses::paginate(),
+            'expenses' => Expenses::where('purpose','!=','Daily Trackings')->paginate(),
         ];
 
         return view('expenses.index', $data);
@@ -39,6 +40,14 @@ class ExpensesController extends Controller
         $form = $request->all();
 
         $customer = Expenses::create($form);
+        
+        $createSaleItem = SaleItem::create([
+            'sale_id' => 1,
+            'product_id' => 7,
+            'price' => 0,
+            'session' => 0,
+            'quantity' => 0,
+            ]);
 
         return redirect('expenses')
             ->with('message-success', 'Expenses created!');

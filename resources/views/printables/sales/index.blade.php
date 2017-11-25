@@ -10,43 +10,39 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Cashier</th>
-                            <th>Session Number</th>
-                            <th>Room Name</th>
-                            <th>Sales Date</th>
+                            <th>#</th>
+                            <th>Date</th>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                     @if (!empty($sales))
                         @forelse ($sales as $key => $sale)
-                            @if($sale->additionalTimeFee == 0 && $sale->corkageFee == 0 && $sale->corkageFee == 0 && $sale->numberOfExtraPerson == 0 && $sale->numberOfMoviesOrHour == 0)
+                            @foreach($sale->items as $item)
+                            @if($item->product->name == 'Additional Payment')
                             @else
                             <tr>
-                                <td>{{ $sale->cashier->name }}</td>
-                                <td>{{ $sale->customer->session }}</td>
-                                <td>{{ $sale->customer->name }}</td>
-                                <td>{{ $sale->created_at->format('F d, Y (H:i)') }}</td>
-                                <td>
-                                    <a href="{{ url('reports/sales/' . $sale->id) }}" class="btn btn-primary btn-xs pull-right">Show</a>
-                                </td>
+                                <td>{{ $key + 1 }}</td>
+                                <td>{{ $sale->created_at->format('F d, Y') }}</td>
+                                <td>{{ $item->product->name }}</td>
+                                <td>{{ $item->product->category }}</td>
+                                <td>{{ $item->product->price }}</td>
+                                <td>{{ $item->quantity }}</td>
+                                <td>{{ $item->quantity * $item->product->price }}</td>
                             </tr>
                             @endif
+                            @endforeach
                         @empty
                             @include('partials.table-blank-slate', ['colspan' => 5])
                         @endforelse
                     @endif
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">Today's Earnings</div>
-
-                <div class="panel-body">
-                <H1 align="center"> ₱{{$earnings}}</H1>
-                </div>
             </div>
         </div>
         <div class="col-md-4">
@@ -72,7 +68,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 @endsection

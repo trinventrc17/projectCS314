@@ -15,6 +15,11 @@ require('./bootstrap');
 
 
 Vue.component('walkinsales', require('./components/WalkinSales.vue'));
+Vue.component('additionalsale', require('./components/AdditionalSales.vue'));
+Vue.component('roomchanges', require('./components/RoomChangesSale.vue'));
+
+
+
 Vue.component('sales', require('./components/Sales.vue'));
 Vue.component('recieving', require('./components/Recieving.vue'));
 Vue.component('adjustment', require('./components/Adjustment.vue'));

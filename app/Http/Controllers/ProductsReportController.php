@@ -61,13 +61,13 @@ class ProductsReportController extends Controller
             ->select(DB::raw('DATE(created_at) as day'),DB::raw('sum(price * quantity) as total'))
             ->groupBy(DB::raw('DATE(created_at)') )
             ->orderByRaw('day DESC')
-            ->get();
+            ->paginate(15);
 
         $monthlyEarnings= SaleItem::select(DB::raw('MONTH(created_at) month'))
                 ->whereMonth('created_at', '=', date('m'))
                 ->sum(DB::raw('price * quantity'));
 
-        $dailyEarnings = SaleItem::whereDay('created_at', '=', date('d'))
+        $dailyEarnings = SaleItem::whereDate('created_at', DB::raw('CURDATE()'))
                 ->sum(DB::raw('price * quantity'));
 
         $yearlyEarnings= SaleItem::select(DB::raw('YEAR(created_at) year'))
@@ -82,7 +82,7 @@ class ProductsReportController extends Controller
                 ->sum(DB::raw('price * quantity'));
 
 
-        $dailyExpenses = Expenses::whereDay('created_at', '=', date('d'))
+        $dailyExpenses = Expenses::whereDate('created_at', DB::raw('CURDATE()'))
                 ->sum(DB::raw('amount'));
 
 
@@ -110,6 +110,7 @@ class ProductsReportController extends Controller
         $totalExpenses = Expenses::sum(DB::raw('amount'));
 
         $totalAll = $totalEarnings - $totalExpenses;
+        
         $expenses =DB::table('expenses')
             ->select(DB::raw('DATE(created_at) as day'),DB::raw('sum(amount) as total'))
             ->groupBy(DB::raw('DATE(created_at)') )

@@ -17,7 +17,7 @@
 
                 <div class="panel-body">
 
-                    <form action="{{ url('rooms/'.$id.'/walkinsales') }}" method="POST">
+                    <form action="{{ url('rooms/'.$id.'/additionalSale') }}" method="POST">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <input type="hidden" class="form-control" id="roomType" name="roomType" value="None">

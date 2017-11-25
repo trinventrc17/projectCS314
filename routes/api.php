@@ -18,6 +18,7 @@ Route::get('/user', function (Request $request) {
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('sales', 'Api\SaleController@store');
+    Route::post('roomChanges', 'Api\RoomChangesController@store');
     Route::post('receivings', 'Api\ReceivingController@store');
     Route::post('adjustments', 'Api\AdjustmentController@store');
 });

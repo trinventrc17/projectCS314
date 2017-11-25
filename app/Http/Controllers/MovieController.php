@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Requests;
 use App\Sale;
 use App\SaleItem;
+use Carbon\Carbon;
 class MovieController extends Controller
 {
     public function movieChooseRoomType($id){
@@ -22,11 +23,19 @@ class MovieController extends Controller
 
 
     public function movieGoodFor2($id){
+        $startTime1 = Carbon::now()->format('g:ia');
+        $carbon_date = Carbon::parse($startTime1);
+        $carbon_date->addHours(2);
+
+        $startTime = Carbon::now()->format('g:ia');
+        $endTime = $carbon_date->format('g:ia');
         $sendId = $id;
         $sessionId = Sale::count() + 1;
         $item = Customer::find($id);
         return view('rooms.movie.movieGoodFor2')
         ->with('id',$sendId)
+        ->with('endTime',$endTime)
+        ->with('startTime',$startTime)
         ->with('sessionId',$sessionId);  
     }
 

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Sale;
+use App\RoomChanges;
 use Illuminate\Http\Request;
 use Validator;
-use App\Expenses;
-class SaleController extends Controller
+
+class RoomChangesController extends Controller
 {
     /**
      * Store a newly created resource in storage.
@@ -22,7 +22,7 @@ class SaleController extends Controller
 
         // inject current cashier id
         $form['cashier_id'] = $request->user()->id;
-        $rules = Sale::$rules;
+        $rules = RoomChanges::$rules;
         // $rules['items'] = 'required';
 
         $validator = Validator::make($form, $rules);
@@ -33,12 +33,8 @@ class SaleController extends Controller
             ], 400);
         }
 
-        $expenses = Expenses::create([
-            'amount' => 0,
-            'purpose' => 'Daily Trackings',
-            ]);
-        $sale = Sale::createAll($form);
+        $roomChanges = RoomChanges::createAll($form);
 
-        return response()->json($sale, 201);
+        return response()->json($roomChanges, 201);
     }
 }

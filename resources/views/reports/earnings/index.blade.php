@@ -32,7 +32,9 @@
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Amount Earned</th>
+                            <th>Earnings</th>
+                            <th>Expenses</th>
+                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,11 +44,31 @@
 
                                     <td>{{ \Carbon\Carbon::parse($earning->day)->format('M d, Y')}}</td>
                                     <td>₱ {{ $earning->total }}</td>
-
-                                    
-
-
+                                    <td>
+                                    @foreach ($expenses as $key => $expense)
+                                        @if($expense->day == $earning->day)
+                                            {{$expense->total}}
+                                        @else
+                                        @endif
+                                    @endforeach
+                                    </td>
+                                    <td>
+                                    @php ($i = 0)
+                                    @php ($j = 0)
+                                    @foreach ($expenses as $key => $expense)
+                                        @if($expense->day == $earning->day)
+                                            @php ($i = $key)
+                                            @php ($j = $expense->total)
+                                            @break
+                                        @else
+                                            @php ($i = $key)
+                                            @php($j=0)
+                                        @endif
+                                    @endforeach
+                                            {{$earnings[$i]->total - $j}}
+                                    </td>
                                 </tr>
+                        
                         @empty
                                 <tr>
                                     <td>--------------------</td>
@@ -56,39 +78,9 @@
                     @endif
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">Expenses Report</div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Amount Spent</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @if (!empty($expenses))
-                        @forelse($expenses as $expense)
-                                <tr>
-
-                                    <td>{{ \Carbon\Carbon::parse($expense->day)->format('M d, Y')}}</td>
-                                    <td>₱ {{ $expense->total }}</td>
-
-                                    
-
-
-                                </tr>
-                        @empty
-                                <tr>
-                                    <td>--------------------</td>
-                                    <td>--------------------</td>
-                                </tr>
-                        @endforelse
-                    @endif
-                    </tbody>
-                </table>
+                <div class="panel-footer" style="text-align: right;">
+                    {{ $earnings->links() }}
+                </div> 
             </div>
         </div>
 

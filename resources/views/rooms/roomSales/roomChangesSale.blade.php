@@ -4,7 +4,7 @@
 
 
 @section('content')
-    <walkinSales :price= "[
+    <roomChanges :price= "[
         {roomType : '{{$roomType}}' ,
         roomPrice: {{$roomPrice}},
         promoType: '{{$promoType}}',
@@ -25,5 +25,5 @@
 
 
 
-        }]"></walkinSales>
+        }]"></roomChanges>
 @endsection

@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateSalesTable extends Migration
+class CreateRoomChangesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateSalesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sales', function (Blueprint $table) {
+        Schema::create('room_changes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('session');
-            $table->integer('customer_id');
-            $table->integer('cashier_id');
             $table->string('roomType');
             $table->string('roomPrice');
             $table->string('promoType');
             $table->string('promoPrice');
-            $table->string('movies')->default('None');
+            $table->string('movies');
             $table->string('numberOfMoviesOrHour');
             $table->string('startTime');
             $table->string('endTime');
@@ -40,6 +38,6 @@ class CreateSalesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('sales');
+        Schema::dropIfExists('room_changes');
     }
 }

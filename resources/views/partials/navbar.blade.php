@@ -23,12 +23,19 @@
                     <li><a href="{{ url('expenses') }}">Expenses</a></li>
                     <li><a href="{{ url('posrooms') }}">Rooms</a></li>
                     <li><a href="{{ url('products') }}">Products</a></li>
-                    <li><a href="{{ url('products') }}">Printables</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Printables <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ url('/printables/index/sales') }}">Sales</a></li>
+                            <li><a href="{{ url('inventories/adjustments') }}">Earnings and Expenses</a></li>
+                            <li><a href="{{ url('inventories/trackings') }}">Products</a></li>
+                        </ul>
+                    </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Inventories <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url('inventories/receivings') }}">Receivings</a></li>
-                            <li><a href="{{ url('inventories/adjustments') }}">Adjustments</a></li>
+<!--                             <li><a href="{{ url('inventories/receivings') }}">Receivings</a></li>
+                            <li><a href="{{ url('inventories/adjustments') }}">Adjustments</a></li> -->
                             <li><a href="{{ url('inventories/trackings') }}">Trackings</a></li>
                             <li><a href="{{ url('stocks') }}">Stocks</a></li>
                         </ul>

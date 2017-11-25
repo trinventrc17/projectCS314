@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
 
-            <form action="{{ url('rooms/'.$id.'/walkinsales') }}" method="POST">
+            <form action="{{ url('rooms/'.$id.'/roomChangesSale') }}" method="POST">
             {{ csrf_field() }}
             
             <div class="col-md-6 col-md-offset-0">
@@ -30,7 +30,7 @@
                     
                     <div class="form-group">
                     {!! Form::label('numberOfMoviesOrHour','Number of Movies') !!}
-                        <input type="number" class="form-control" id="numberOfMoviesOrHour" value="1" name="numberOfMoviesOrHour">
+                        <input type="number" class="form-control" id="numberOfMoviesOrHour" value="0" name="numberOfMoviesOrHour">
                     </div>
 
                     <div class="form-group">
