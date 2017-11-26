@@ -28,11 +28,11 @@
                        </div>
 
                         <div class="form-group">
-                            <input type="hidden" class="form-control" id="startTime" name="startTime" value="None">
+                            <input type="hidden" class="form-control" id="startTime" name="startTime" value="{{$sales[$count]->startTime}}">
                        </div>
 
                         <div class="form-group">
-                            <input type="hidden" class="form-control" id="endTime" name="endTime" value="None">
+                            <input type="hidden" class="form-control" id="endTime" name="endTime" value="{{$sales[$count]->endTime}}">
                        </div>
 
                         <div class="form-group">

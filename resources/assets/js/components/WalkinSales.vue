@@ -127,7 +127,7 @@ export default {
                      id:this.price[0].numberOfExtraPersonId,
                      name:'--------------------------------',
                      quantity:this.price[0].numberOfExtraPerson,
-                     price:30,
+                     price:price[0].additionalPersonFee,
                      barcode:this.price[0].session
                     },
                  ],

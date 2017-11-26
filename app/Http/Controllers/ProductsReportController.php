@@ -15,31 +15,13 @@ class ProductsReportController extends Controller
         $products = DB::table('products')
                 ->where('category','!=','Room Sale')
                 ->orderByRaw(' price - capitalPrice ASC') 
-                ->get();
+                ->paginate(10);
 
-        $totalEarnings = Product::sum(DB::raw('sold * (price - capitalPrice)'));
+        $totalEarnings = Product::where('category','!=','Room Sale')->sum(DB::raw('sold * (price - capitalPrice)'));
 
     	return view ('reports.products.index')
             ->with('products',$products)
             ->with('totalEarnings',$totalEarnings);
-
-       //  $data = [
-       //      'sale' => Sale::get()
-       //  ];
-
-       //  $form = $request->all();
-
-       //  $data = [
-       //      'input' => $form,
-       //  ];
-
- 
-       // $data['sales'] = Sale::search($form)->get();
-
-       //  $saleItem = SaleItem::get();
-       //  $sales = $data['sales'];
-        
-       //  return view('reports.products.index2',$data);
     }
 
 
@@ -47,9 +29,11 @@ class ProductsReportController extends Controller
         $products = DB::table('products')
                 ->where('category','=','Room Sale')
                 ->orderByRaw(' price - capitalPrice ASC') 
-                ->get();
-
+                ->paginate(10);
+        $totalEarnings = Product::where('category','=','Room Sale')->sum(DB::raw('sold * (price)'));
+      
       return view ('reports.products.rooms')
+            ->with('totalEarnings',$totalEarnings)
             ->with('products',$products);
     }
 

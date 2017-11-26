@@ -66,7 +66,7 @@ public function roomChangesSale(Requests\RoomRequest $request ,$id)
         $numberOfExtraPerson = $request->numberOfExtraPerson;
         $additionalTimeFee = $request->additionalTimeFee;
         $corkageFee = $request->corkageFee;
-
+        $additionalPersonFee =0;
         $roomId = $id;
         $roomPrice = 0;
         $promoPrice = 0;
@@ -96,7 +96,7 @@ public function roomChangesSale(Requests\RoomRequest $request ,$id)
             $numberOfExtraPersonId = 5;
             $additionalTimeFeeId = 6;
             $movies = $request->movies;
-            
+            $additionalPersonFee = 60;
             $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
             $numberOfExtraPerson = $request->numberOfExtraPerson;
             $additionalTimeFee = $request->additionalTimeFee;
@@ -105,6 +105,7 @@ public function roomChangesSale(Requests\RoomRequest $request ,$id)
 
         if($roomType == 'Good For 2' && $promoType = 'Happy Hour'){
             $roomPrice = 230;
+            $additionalPersonFee = 60;
             $sendId = 1;
             $corkageFeeId = 4;
             $numberOfExtraPersonId = 5;
@@ -138,6 +139,7 @@ public function roomChangesSale(Requests\RoomRequest $request ,$id)
 
         return view('rooms.roomSales.roomChangesSale')->with('sendId',$sendId)
             ->with('roomId',$roomId)
+            ->with('additionalPersonFee',$additionalPersonFee)
             ->with('roomType',$roomType)->with('roomPrice',$roomPrice)
             ->with('promoType',$promoType)->with('promoPrice',$promoPrice)
             ->with('session',$session)

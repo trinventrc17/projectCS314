@@ -22,7 +22,7 @@
         corkageFeeId:{{$corkageFeeId}},
         numberOfExtraPersonId: {{$numberOfExtraPersonId}},
         additionalTimeFeeId : {{$additionalTimeFeeId}}
-
+        additionalPersonFee : {{$additionalPersonFee}}
 
 
         }]"></roomChanges>

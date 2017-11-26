@@ -38,10 +38,23 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Excel Reports
     Route::get('ExportReports','ExcelReports@ExportReports');
-        Route::get('/printables/index/sales','ExcelReports@salesIndex');
-        Route::get('/printables/index/sales/salesCustomizedFilter','ExcelReports@salesCustomizedFilter');
-        Route::get('/printables/index/sales/salesDefaultFilter','ExcelReports@salesDefaultFilter');
-            Route::get('/printables/index/sales/salesExcelPrintable','ExcelReports@salesExcelPrintable');
+            Route::get('/printables/index/sales','ExcelReports@salesIndex');
+            Route::get('/printables/index/sales/salesCustomizedFilter','ExcelReports@salesCustomizedFilter');
+            Route::get('/printables/index/sales/salesDefaultFilter','ExcelReports@salesDefaultFilter');
+                Route::get('/printables/index/sales/salesExcelPrintable','ExcelReports@salesExcelPrintable');
+
+            Route::get('/printables/index/earningsAndExpenses','ExcelReports@earningsAndExpensesIndex');
+            Route::get('/printables/index/earningsAndExpenses/earningsAndExpensesCustomizedFilter','ExcelReports@earningsAndExpensesCustomizedFilter');
+            Route::get('/printables/index/earningsAndExpenses/earningsAndExpensesDefaultFilter','ExcelReports@earningsAndExpensesDefaultFilter');
+                Route::get('/printables/index/earningsAndExpenses/earningsAndExpensesExcelPrintable','ExcelReports@earningsAndExpensesExcelPrintable');
+
+            Route::get('/printables/index/products','ExcelReports@productsIndex');
+            Route::get('/printables/index/products/productsDefaultFilter','ExcelReports@productsDefaultFilter');
+            Route::get('/printables/index/products/productsCustomizedFilter','ExcelReports@productsCustomizedFilter');
+                Route::get('/printables/index/products/productsExcelPrintable','ExcelReports@productsExcelPrintable');
+
+
+
 
     //Room Changes
     Route::post('/roomchanges/{id}/updateRoom','RoomChangesController@updateRoom');

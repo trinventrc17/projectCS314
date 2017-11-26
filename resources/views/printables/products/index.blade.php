@@ -24,41 +24,41 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Product Name</th>
-                            <th>Category</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
+                            <th>Item Name</th>
+                            <th>Capital Per Item</th>
+                            <th>Price Per Item</th>
+                            <th>Income Per Item</th>
+                            <th>Items Sold</th>
                             <th>Total</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                    @if (!empty($sales))
-                        @forelse($sales as $sale)
-                            @if($sale->product->name == 'Additional Payment' || $sale->price == 0 || $sale->quantity == 0)
-                            @else
+                    @foreach($sales as $sale)
                             <tr>
-                                <td>{{ $sale->created_at->format('F d, Y') }}</td>
-                                <td>{{ $sale->product->name }}</td>
-                                <td>{{ $sale->product->category }}</td>
-                                <td>{{ $sale->price }}</td>
-                                <td>{{ $sale->quantity }}</td>
-                                <td>{{ $sale->quantity * $sale->price }}</td>
+                                @if($sale->name == 'Additional Payment' || $sale->name == 'Corkage Fee' || $sale->name == 'Additional Person' || $sale->name == 'Additional Movie Fee')
+                                @else
+                                <td>{{ $sale->name }}</td>
+                                @if($sale->capitalPrice == 0)
+                                <td>Not Assigned</td>
+                                @else
+                                <td>₱ {{ number_format($sale->capitalPrice,2) }}</td>
+                                @endif
+                                <td>₱ {{ number_format($sale->price,2) }}</td>
+                                <td>₱ {{ number_format($sale->price - $sale->capitalPrice,2) }}</td>
+                                <td>{{ $sale->sold }}</td>
+
+                                <td>₱ {{ number_format($sale->sold * ($sale->price - $sale->capitalPrice),2) }}</td>
+                                @endif
                             </tr>
-                            @endif
-                    @empty
-                            @include('partials.table-blank-slate', ['colspan' => 5])
-                    @endforelse
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>{{ $saleTotal }}</td>
-                            </tr>
-                    @endif
+                    @endforeach
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>₱ {{ number_format($saleTotal,2) }}</td>
+                    </tr>
                     </tbody>
                 </table>
                 <div class="panel-footer" style="text-align: right; height: 50px">
@@ -70,7 +70,7 @@
                 <div class="panel-heading">Simple Filter</div>
 
                 <div class="panel-body">
-                    <form action="{{ url('/printables/index/sales/salesDefaultFilter') }}" method="GET">
+                    <form action="{{ url('/printables/index/products/productsDefaultFilter') }}" method="GET">
                         <div class="form-group">
                         {!! Form::label('Date Range','Date Range') !!}
                         {!! Form::select('date_range', array('Select Filter' => 'Select Filter','Today' => 'Today', 'This Week' => 'This Week','This Month' => 'This Month',), '',['class'=>'form-control']) !!}
@@ -89,7 +89,7 @@
                 <div class="panel-heading">Simple Filter</div>
 
                 <div class="panel-body">
-                    <form action="{{ url('/printables/index/sales/salesCustomizedFilter') }}" method="GET">
+                    <form action="{{ url('/printables/index/products/productsCustomizedFilter') }}" method="GET">
                     {{ csrf_field() }}
                         <div class="form-group">
                         {!! Form::label('Date Range','Date Range') !!}
@@ -108,7 +108,7 @@
                 <div class="panel-heading">Total Sales</div>
 
                 <div class="panel-body">
-                   {{ $saleTotal }}
+                  ₱ {{ number_format($saleTotal,2) }}
                 </div>
             </div>
         </div>

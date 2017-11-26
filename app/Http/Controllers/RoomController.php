@@ -71,6 +71,10 @@ class RoomController extends Controller
 
         $find = $customer->session;
 
+        $roomChanges = Sale::where('session',$find);
+        $sendCount = Sale::where('session',$find)->count();
+        $count = $sendCount-1;
+
         $data = [
             'sale' => Sale::where('session', $find)->get(),
         ];
@@ -85,6 +89,7 @@ class RoomController extends Controller
 
         $counter = $data['sale']->count();         
        return view('rooms.roomoccupied')
+            ->with('count',$count)
             ->with('sales',$sale)
             ->with('counter',$counter)
             ->with('saleItem',$saleItem)
@@ -220,7 +225,7 @@ class RoomController extends Controller
         $numberOfExtraPerson = $request->numberOfExtraPerson;
         $additionalTimeFee = $request->additionalTimeFee;
         $corkageFee = $request->corkageFee;
-
+        $additionalPersonFee = 0;
         $roomId = $id;
         $roomPrice = 0;
         $promoPrice = 0;
@@ -244,6 +249,7 @@ class RoomController extends Controller
         }
 
         if($roomType == 'Good For 2' && $promoType = 'Regular'){
+            $additionalPersonFee = 60;
             $roomPrice = 260;
             $sendId = 1;
             $corkageFeeId = 4;
@@ -258,6 +264,7 @@ class RoomController extends Controller
         }
 
         if($roomType == 'Good For 2' && $promoType = 'Happy Hour'){
+            $additionalPersonFee = 60;
             $roomPrice = 230;
             $sendId = 1;
             $corkageFeeId = 4;
@@ -274,10 +281,15 @@ class RoomController extends Controller
 
         if ($roomType == 'Good For 4'){
             $roomPrice = 450;
-            $sendId = 2;
+            $sendId = 1;
             $corkageFeeId = 4;
             $numberOfExtraPersonId = 5;
             $additionalTimeFeeId = 6;
+            $movies = $request->movies;
+            $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
+            $numberOfExtraPerson = $request->numberOfExtraPerson;
+            $additionalTimeFee = $request->additionalTimeFee;
+            $corkageFee = $request->corkageFee;
         }
 
         if ($roomType == 'Good For 8'){
@@ -292,6 +304,7 @@ class RoomController extends Controller
 
         return view('rooms.roomSales.create')->with('sendId',$sendId)
             ->with('roomId',$roomId)
+            ->with('additionalPersonFee',$additionalPersonFee)
             ->with('roomType',$roomType)->with('roomPrice',$roomPrice)
             ->with('promoType',$promoType)->with('promoPrice',$promoPrice)
             ->with('session',$session)
