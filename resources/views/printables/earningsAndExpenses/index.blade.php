@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="panel panel-default">
-                <div class="panel-heading">Note : <strong>This is and Exportable File ,Click Export to Export to Excel</strong>
+                <div class="panel-heading">Note : <strong>This is an Exportable File ,Click Export to Export to Excel</strong>
 
                     <div class="pull-right">
 
@@ -40,7 +40,7 @@
                                     <td>
                                     @foreach ($expenses as $key => $expense)
                                         @if($expense->day == $earning->day)
-                                            {{$expense->total}}
+                                        ₱ {{ number_format($expense->total,2) }}
                                         @else
                                         @endif
                                     @endforeach
@@ -58,7 +58,7 @@
                                             @php($j=0)
                                         @endif
                                     @endforeach
-                                            {{$earnings[$i]->total - $j}}
+                                            ₱ {{ number_format($earnings[$i]->total - $j,2) }}
                                     </td>
                                 </tr>
                         
@@ -69,7 +69,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>{{$saleTotal}}</td>
+                            <td>₱ {{ number_format($saleTotal,2) }}</td>
                         </tr>
                     @endif
                     </tbody>
@@ -80,7 +80,7 @@
         </div>
         <div class="col-md-4">
             <div class="panel panel-default">
-                <div class="panel-heading">Customized Filter</div>
+                <div class="panel-heading">Simple Filter</div>
 
                 <div class="panel-body">
                     <form action="{{ url('/printables/index/earningsAndExpenses/earningsAndExpensesDefaultFilter') }}" method="GET">
@@ -99,7 +99,7 @@
 
         <div class="col-md-4">
             <div class="panel panel-default">
-                <div class="panel-heading">Simple Filter</div>
+                <div class="panel-heading">Customized Filter</div>
 
                 <div class="panel-body">
                     <form action="{{ url('/printables/index/earningsAndExpenses/earningsAndExpensesCustomizedFilter') }}" method="GET">
@@ -116,12 +116,35 @@
             </div>
         </div>
 
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Total Sales</div>
+                <div class="panel-heading">Earnings Summary</div>
 
                 <div class="panel-body">
-                   {{ $saleTotal }}
+
+                <table>
+                    <tr>
+                        <td colspan=""><strong>Day-------------------------</strong></td>
+                        <td align="right">₱ {{$dailyEarnings}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=""><strong>Week-------------------------</strong></td>
+                        <td align="right">₱ {{$dailyEarnings}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=""><strong>Month-------------------------</strong></td>
+                        <td align="right">₱ {{$weeklyEarnings}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=""><strong>Year-------------------------</strong></td>
+                        <td align="right">₱ {{$yearlyEarnings}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=""><strong>Total-------------------------</strong></td>
+                        <td align="right">₱ {{$totalEarnings}}</td>
+                    </tr>
+                </table>
+
                 </div>
             </div>
         </div>

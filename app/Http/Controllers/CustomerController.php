@@ -89,10 +89,17 @@ class CustomerController extends Controller
     {
         $form = $request->all();
 
+        $action = $request->status;
+
+        if ($action == 'Occupied')
+            $action = 'chooseaction';
+        if($action == 'Reserved')
+            $action = 'reserveroom';
+        
         $customer = Customer::findOrFail($id);
         $customer->update($form);
 
-        return redirect('/rooms/'.$id.'/chooseaction/')
+        return redirect('/rooms/'.$id.'/'.$action.'/')
             ->with('message-success', 'Room updated!');
     }
 

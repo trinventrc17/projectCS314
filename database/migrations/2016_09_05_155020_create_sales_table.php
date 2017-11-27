@@ -26,6 +26,7 @@ class CreateSalesTable extends Migration
             $table->string('numberOfMoviesOrHour');
             $table->string('startTime');
             $table->string('endTime');
+            $table->string('reservationfee')->default('0');;
             $table->string('numberOfExtraPerson')->default('0');
             $table->string('additionalTimeFee')->default('0');
             $table->string('corkageFee')->default('0');

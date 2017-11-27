@@ -6,11 +6,11 @@
     <div class="row">
         <div class="col-md-8">
             <div class="panel panel-default">
-                <div class="panel-heading">Note : <strong>This is and Exportable File ,Click Export to Export to Excel</strong>
+                <div class="panel-heading">Note : <strong>This is an Exportable File ,Click Export to Export to Excel</strong>
 
                     <div class="pull-right">
 
-                        <form action="{{ url('/printables/index/sales/salesExcelPrintable') }}" method="GET">
+                        <form action="{{ url('/printables/index/products/productsExcelPrintable') }}" method="GET">
                         {{ csrf_field() }}
                             <input type="hidden" class="form-control" id="date_query" name="date_query" value="{{$date_query}}">
                             <div class="form-group">
@@ -61,7 +61,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="panel-footer" style="text-align: right; height: 50px">
+                <div class="panel-footer" style="text-align: right; height: 70px">
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
 
         <div class="col-md-4">
             <div class="panel panel-default">
-                <div class="panel-heading">Simple Filter</div>
+                <div class="panel-heading">Customized Filter</div>
 
                 <div class="panel-body">
                     <form action="{{ url('/printables/index/products/productsCustomizedFilter') }}" method="GET">

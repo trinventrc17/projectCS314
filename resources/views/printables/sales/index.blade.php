@@ -42,9 +42,10 @@
                                 <td>{{ $sale->created_at->format('F d, Y') }}</td>
                                 <td>{{ $sale->product->name }}</td>
                                 <td>{{ $sale->product->category }}</td>
-                                <td>{{ $sale->price }}</td>
+                                <td> ₱ {{ number_format($sale->price,2) }}</td>
                                 <td>{{ $sale->quantity }}</td>
-                                <td>{{ $sale->quantity * $sale->price }}</td>
+                                <td>₱ {{ number_format($sale->quantity * $sale->price,2) }}</td>
+
                             </tr>
                             @endif
                     @empty
@@ -56,7 +57,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td>{{ $saleTotal }}</td>
+                                <td> ₱ {{ number_format($saleTotal,2) }}</td>
                             </tr>
                     @endif
                     </tbody>
@@ -108,7 +109,7 @@
                 <div class="panel-heading">Total Sales</div>
 
                 <div class="panel-body">
-                   {{ $saleTotal }}
+                   ₱ {{ number_format($saleTotal,2) }}
                 </div>
             </div>
         </div>

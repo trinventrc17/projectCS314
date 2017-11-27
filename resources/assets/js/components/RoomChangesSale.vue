@@ -127,7 +127,14 @@ export default {
                      id:this.price[0].numberOfExtraPersonId,
                      name:'--------------------------------',
                      quantity:this.price[0].numberOfExtraPerson,
-                     price:price[0].additionalPersonFee,
+                     price:this.price[0].additionalPersonFee,
+                     barcode:this.price[0].session
+                    },
+                    {
+                     id:this.price[0].reservationfeeId,
+                     name:'--------------------------------',
+                     quantity:1,
+                     price:this.price[0].reservationfee,
                      barcode:this.price[0].session
                     },
                  ],
@@ -224,6 +231,13 @@ export default {
                      price:30,
                      barcode:this.price[0].session
                     },
+                    {
+                     id:this.price[0].reservationfeeId,
+                     name:'--------------------------------',
+                     quantity:1,
+                     price:this.price[0].reservationfee,
+                     barcode:this.price[0].session
+                    },
                  ]
         },
 
@@ -263,6 +277,13 @@ export default {
                      name:'--------------------------------',
                      quantity:this.price[0].numberOfExtraPerson,
                      price:30,
+                     barcode:this.price[0].session
+                    },
+                    {
+                     id:this.price[0].reservationfeeId,
+                     name:'--------------------------------',
+                     quantity:1,
+                     price:this.price[0].reservationfee,
                      barcode:this.price[0].session
                     },
                  ]

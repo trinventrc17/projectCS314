@@ -24,23 +24,25 @@
                     <li><a href="{{ url('posrooms') }}">Rooms</a></li>
                     <li><a href="{{ url('products') }}">Products</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Exportables <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url('/printables/index/sales') }}">Sales</a></li>
-                            <li><a href="{{ url('printables/index/earningsAndExpenses') }}">Earnings and Expenses</a></li>
-                            <li><a href="{{ url('printables/index/products') }}">Products</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Inventories <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
 <!--                             <li><a href="{{ url('inventories/receivings') }}">Receivings</a></li>
                             <li><a href="{{ url('inventories/adjustments') }}">Adjustments</a></li> -->
-                            <li><a href="{{ url('inventories/trackings') }}">Trackings</a></li>
+<!--                             <li><a href="{{ url('inventories/trackings') }}">Trackings</a></li> -->
                             <li><a href="{{ url('stocks') }}">Stocks</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reports <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ url('/printables/index/sales') }}">Sales</a></li>
+                            <li><a href="{{ url('printables/index/earningsAndExpenses') }}">Earnings and Expenses</a></li>
+                            <li><a href="{{ url('printables/index/products') }}">Products</a></li>
+                            <li><a href="{{ url('reports/sales') }}">Sales(Detailed)</a></li>
+                        </ul>
+                    </li>
+
+<!--                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             Reports <span class="caret"></span>
                         </a>
@@ -48,9 +50,9 @@
                             <li><a href="{{ url('reports/sales') }}">Sales</a></li>
                             <li><a href="{{ url('productsReport') }}">Products</a></li>
                             <li><a href="{{ url('productsReport/rooms') }}">Room</a></li>
-                            <li><a href="{{ url('productsReport/earnings') }}">Earnings Summary</a></li>
+                            <li><a href="{{ url('productsReport/earnings') }}">Earnings and Expenses</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                 @endif
             </ul>
 

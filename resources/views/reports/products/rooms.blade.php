@@ -18,7 +18,7 @@
                     <tbody>
                     @foreach($products as $product)
                             <tr>
-                                @if($product->name == 'Additional Payment' || $product->name == 'Corkage Fee' || $product->name == 'Additional Person' || $product->name == 'Additional Movie Fee')
+                                @if($product->name == 'Additional Payment' || $product->name == 'Corkage Fee' || $product->name == 'Additional Person' || $product->name == 'Additional Movie Fee' || $product->name == 'Reservation Fee')
                                 @else
                                 <td>{{ $product->name }}</td>
                                 <td>₱ {{ number_format($product->price,2) }}</td>

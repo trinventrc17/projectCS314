@@ -67,8 +67,12 @@ Route::group(['middleware' => 'auth'], function () {
      Route::get('/stocks/ask/ask','StocksController@ask');
 
     Route::get('/productsReport','ProductsReportController@index');
+        Route::get('/productsReport/productsSearched','ProductsReportController@productsSearched');
     Route::get('/productsReport/rooms','ProductsReportController@rooms');
+        Route::get('/productsReport/roomsSearched','ProductsReportController@roomsSearched');
     Route::get('/productsReport/earnings','ProductsReportController@earnings');
+        Route::get('/productsReport/earningsSearched','ProductsReportController@earningsSearched');
+   
     //Rooms Track
     Route::get('RoomsTrack/{id}/chooseAction', 'RoomsTrackController@chooseAction');
     Route::get('RoomsTrack/{id}/{action}/actionChosen', 'RoomsTrackController@actionChosen');
@@ -82,8 +86,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/rooms/{id}/checkstatus/','RoomController@checkstatus');
         Route::get('/rooms/{id}/askoccupy/','RoomController@askoccupy');
         Route::get('/rooms/{id}/roomoccupied/','RoomController@roomoccupied');
+        Route::get('/rooms/{id}/reservation/','RoomController@reservation');
         
     Route::get('/rooms/{id}/chooseaction/','RoomController@chooseaction');
+    Route::get('/rooms/{id}/reserveroom/','RoomController@reserveroom');
         Route::get('/rooms/{id}/walkin','RoomController@walkin');
             Route::get('/rooms/{id}/movieOrKtv','RoomController@movieOrKtv');
                 Route::get('/rooms/{id}/movieChooseRoomType','MovieController@movieChooseRoomType');

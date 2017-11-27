@@ -21,8 +21,10 @@
         numberOfExtraPerson: {{$numberOfExtraPerson}},
         corkageFeeId:{{$corkageFeeId}},
         numberOfExtraPersonId: {{$numberOfExtraPersonId}},
-        additionalTimeFeeId : {{$additionalTimeFeeId}}
-        additionalPersonFee : {{$additionalPersonFee}}
+        additionalTimeFeeId : {{$additionalTimeFeeId}},
+        additionalPersonFee : {{$additionalPersonFee}},
+        reservationfee : {{$reservationFee}},
+        reservationfeeId : {{$reservationfeeId}},
 
 
         }]"></roomChanges>

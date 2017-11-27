@@ -84,6 +84,9 @@
                         <input type="number" class="form-control" id="corkageFee" value ="0" name="corkageFee">
                     </div>
 
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="reservationFee" name="reservationFee" value="0">
+                    </div>
 
                     <div class="form-group">
                         <input type="hidden" class="form-control" id="session" name="session" value="{{$sessionId}}">

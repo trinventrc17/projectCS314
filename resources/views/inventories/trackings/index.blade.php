@@ -23,6 +23,8 @@
                     <tbody>
                     @forelse ($trackings as $key => $tracking)
                         @if (!empty($tracking->trackable))
+                            @if($tracking->product->category == 'Room Sale')
+                            @else
                             <tr>
                                 <td>{{ $trackings->firstItem() + $key }}</td>
                                 <td>{{ $tracking->user->name }}</td>
@@ -49,6 +51,7 @@
 
                                 <td>{{ $tracking->created_at->format('d F Y H:i') }}</td>
                             </tr>
+                            @endif
                         @endif
                     @empty
                         @include('partials.table-blank-slate', ['colspan' => 7])

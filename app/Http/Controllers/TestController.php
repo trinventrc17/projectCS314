@@ -10,53 +10,16 @@ use App\Http\Requests;
 use App\Sale;
 use App\SaleItem;
 use App\RoomChanges;
-
 use DB;
-
 use Carbon\Carbon;
-
-class RoomChangesController extends Controller
+class TestController extends Controller
 {
 
 
 
-    public function create()
+
+    public function walkinSale(Requests\RoomRequest $request ,$id)
     {
-        return view('rooms.create');
-    }
-
-    public function store(Requests\StoreRoomChanges $request)
-    {
-        $form = $request->all();
-
-        SaleItem::create($form);
-
-
-        $stocks = Stocks::create([
-                'name'=> $productFind->name,
-                'quantity' => $request->quantity,
-            ]);
-
-
-        return redirect('asdasd')
-            ->with('message-success', 'Room created!');
-    }
-
-
-	public function  updateRoom(Request $request,$id){
-		$sessionId = $request->updateSessionId;
-		
-		return view('rooms.roomchanges.create')
-                ->with('id',$id)
-                ->with('startTime',$request->startTime)
-                ->with('endTime',$request->endTime)
-		   		->with('sessionId',$sessionId);
-	}
-
-
-    public function roomChangesSale(Requests\RoomRequest $request ,$id)
-    {
- 
 
         $promoType = $request->promoType;
         $roomType = $request->roomType;
@@ -69,7 +32,6 @@ class RoomChangesController extends Controller
         $corkageFee = $request->corkageFee;
         $additionalPersonFee = 0;
         $roomPrice = 230;
-        $promoPrice = 0;
         $roomId = $id;
         $sendId = 0;
         $room = Customer::findOrFail($id);
@@ -91,11 +53,9 @@ class RoomChangesController extends Controller
                 $numberOfExtraPerson = 0;
                 $additionalTimeFeeId = 7;
                 $additionalTimeFee = 0;
-                $promoPrice = 0;
                 break;
             case "Good For 2":
                 if($promoType == 'Regular'){
-                    $promoPrice = 0;
                     $reservationfeeId = 7;
                     $reservationFee = 0;
                     $additionalPersonFee = 60;
@@ -111,7 +71,6 @@ class RoomChangesController extends Controller
                     $corkageFee = $request->corkageFee;
                 }
                 else{
-                    $promoPrice = 0;
                     $reservationfeeId = 7;
                     $reservationFee = 0;
                     $additionalPersonFee = 60;
@@ -129,7 +88,6 @@ class RoomChangesController extends Controller
                 break;
             case "Good For 4'":
                 $roomPrice = 450;
-                $promoPrice = 0;
                 $sendId = 1;
                 $corkageFeeId = 4;
                 $numberOfExtraPersonId = 5;
@@ -140,8 +98,7 @@ class RoomChangesController extends Controller
                 $additionalTimeFee = $request->additionalTimeFee;
                 $corkageFee = $request->corkageFee;
                 break;
-            case "Good For 8":
-                $promoPrice = 0;
+            case "Good For 8"
                 $roomPrice = 800;
                 $sendId = 3;
                 $corkageFeeId = 4;
@@ -149,7 +106,6 @@ class RoomChangesController extends Controller
                 $additionalTimeFeeId = 6;
                 break;
             case "Reservation":
-                $promoPrice = 0;
                 $reservationfeeId = 7;
                 $reservationFee = $request->reservationFee;
                 $additionalPersonFee = 0;
@@ -162,10 +118,9 @@ class RoomChangesController extends Controller
                 $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
                 $numberOfExtraPerson = $request->numberOfExtraPerson;
                 $additionalTimeFee = $request->additionalTimeFee;
-                $corkageFee = $request->corkageFee;
+                $corkageFee = $request->corkageFee;.
                 break;
             default:
-                $promoPrice = 0;
                 $promoType = $request->promoType;
                 $roomType = $request->roomType;
                 $startTime = $request->startTime;
@@ -190,7 +145,7 @@ class RoomChangesController extends Controller
 
 
 
-        return view('rooms.roomSales.roomChangesSale')->with('sendId',$sendId)
+        return view('rooms.roomSales.create')->with('sendId',$sendId)
             ->with('roomId',$roomId)
             ->with('reservationFee',$reservationFee)
             ->with('reservationfeeId',$reservationfeeId)
@@ -205,6 +160,9 @@ class RoomChangesController extends Controller
             ->with('corkageFee',$corkageFee)->with('corkageFeeId',$corkageFeeId);
     }
 
+
+
+    
 
 
 }

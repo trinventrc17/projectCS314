@@ -38,7 +38,7 @@
         </tr>
 
         @foreach($sale->items as $item)
-            @if($item->product->name == 'Additional Payment')
+            @if($item->product->name == 'Additional Payment' || $item->price == 0 || $item->quantity == 0)
             @else
             <tr>
                 <td colspan="2">(<strong>{{$item->quantity}}</strong>){{ $item->product->name }}</td>
