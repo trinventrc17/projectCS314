@@ -60,7 +60,7 @@
                     <div class="panel-body">
 
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="roomType" name="roomType" value="Good For 2">
+                        <input type="hidden" class="form-control" id="roomType" name="roomType" value="Movie Good For 2">
                     </div>
 
                     {!! Form::label('promoType','Promo Type') !!}
@@ -83,6 +83,12 @@
                     {!! Form::label('corkageFee','Corkage Fee') !!}
                         <input type="number" class="form-control" id="corkageFee" value ="0" name="corkageFee">
                     </div>
+
+                    <div class="form-group">
+                    {!! Form::label('discountFee','Discount Fee') !!}
+                        <input type="number" class="form-control" id="discountFee" value ="0" name="discountFee">
+                    </div>
+
 
                     <div class="form-group">
                         <input type="hidden" class="form-control" id="reservationFee" name="reservationFee" value="0">

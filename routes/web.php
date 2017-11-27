@@ -96,8 +96,9 @@ Route::group(['middleware' => 'auth'], function () {
                     Route::get('/rooms/{id}/movieGoodFor2','MovieController@movieGoodFor2');
                     Route::get('/rooms/{id}/movieGoodFor4','MovieController@movieGoodFor4');
                     Route::get('/rooms/{id}/movieGoodFor8','MovieController@movieGoodFor8');
-                Route::get('/rooms/{id}/ktv','RoomController@ktv');
-                
+                Route::get('/rooms/{id}/ktv','MovieController@ktvChooseRoomType');
+                    Route::get('/rooms/{id}/ktvGoodFor4','MovieController@ktvGoodFor4');
+                    Route::get('/rooms/{id}/ktvGoodFor8','MovieController@ktvGoodFor8');
         Route::get('/rooms/{id}/reserve','RoomController@reserve');
             Route::post('/rooms/{id}/walkinsales','RoomController@walkinSale');
             Route::post('/rooms/{id}/additionalSale','RoomController@additionalSale');

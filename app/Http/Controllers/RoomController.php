@@ -30,6 +30,10 @@ class RoomController extends Controller
 
     }
 
+
+
+
+
     public function create()
     {
         return view('rooms.create');
@@ -154,8 +158,22 @@ class RoomController extends Controller
 
 
 
+    public function destroy(Request $request,$id)
+    {
+
+        $id = $request->roomId;
+        $customer = SaleItem::findOrFail($id);
+        dd($customer);
+
+        $customer->delete();
+
+        return redirect('/pos/public/rooms/'.$id.'/roomDetailsAndReceipt');
+    }
+
+
 
     public function roomDetailsAndReceipt($id){
+
         $customer = Customer::findOrFail($id);
 
         $find = $customer->session;
@@ -303,8 +321,9 @@ class RoomController extends Controller
         $reservationfeeId = 7;
         $numberOfExtraPersonId = 7;
         $additionalTimeFeeId = 7;
-
-
+        $discountFeeId = 7;
+        $discountFee = 0;
+        $corkageFeeId = 7;
 
         switch ($roomType) {
             case "None":
@@ -317,13 +336,17 @@ class RoomController extends Controller
                 $additionalTimeFeeId = 7;
                 $additionalTimeFee = 0;
                 $promoPrice = 0;
+                $reservationFee = 0;
+                $reservationfeeId = 7;                
+                $discountFeeId = 7;
+                $discountFee = 0;
                 break;
-            case "Good For 2":
+            case "Movie Good For 2":
                 if($promoType == 'Regular'){
                     $promoPrice = 0;
                     $reservationfeeId = 7;
                     $reservationFee = 0;
-                    $additionalPersonFee = 60;
+                    $additionalPersonFee = 30;
                     $roomPrice = 260;
                     $sendId = 1;
                     $corkageFeeId = 4;
@@ -334,12 +357,14 @@ class RoomController extends Controller
                     $numberOfExtraPerson = $request->numberOfExtraPerson;
                     $additionalTimeFee = $request->additionalTimeFee;
                     $corkageFee = $request->corkageFee;
+                    $discountFeeId = 8;
+                    $discountFee = -$request->discountFee;
                 }
                 else{
                     $promoPrice = 0;
                     $reservationfeeId = 7;
                     $reservationFee = 0;
-                    $additionalPersonFee = 60;
+                    $additionalPersonFee = 30;
                     $roomPrice = 230;
                     $sendId = 1;
                     $corkageFeeId = 4;
@@ -350,28 +375,81 @@ class RoomController extends Controller
                     $numberOfExtraPerson = $request->numberOfExtraPerson;
                     $additionalTimeFee = $request->additionalTimeFee;
                     $corkageFee = $request->corkageFee;
+                    $discountFeeId = 8;
+                    $discountFee = -$request->discountFee;
                 }
                 break;
-            case "Good For 4'":
-                $roomPrice = 450;
-                $promoPrice = 0;
-                $sendId = 1;
-                $corkageFeeId = 4;
-                $numberOfExtraPersonId = 5;
-                $additionalTimeFeeId = 6;
-                $movies = $request->movies;
-                $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
-                $numberOfExtraPerson = $request->numberOfExtraPerson;
-                $additionalTimeFee = $request->additionalTimeFee;
-                $corkageFee = $request->corkageFee;
+            case "Movie Good For 4":
+                    $promoPrice = 0;
+                    $reservationfeeId = 7;
+                    $reservationFee = 0;
+                    $additionalPersonFee = 30;
+                    $roomPrice = 450;
+                    $sendId = 2;
+                    $corkageFeeId = 4;
+                    $numberOfExtraPersonId = 5;
+                    $additionalTimeFeeId = 6;
+                    $movies = $request->movies;
+                    $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
+                    $numberOfExtraPerson = $request->numberOfExtraPerson;
+                    $additionalTimeFee = $request->additionalTimeFee;
+                    $corkageFee = $request->corkageFee;
+                    $discountFeeId = 8;
+                    $discountFee = -$request->discountFee;
                 break;
-            case "Good For 8":
-                $promoPrice = 0;
-                $roomPrice = 800;
-                $sendId = 3;
-                $corkageFeeId = 4;
-                $numberOfExtraPersonId = 5;
-                $additionalTimeFeeId = 6;
+            case "Movie Good For 8":
+                    $promoPrice = 0;
+                    $reservationfeeId = 7;
+                    $reservationFee = 0;
+                    $additionalPersonFee = 30;
+                    $roomPrice = 800;
+                    $sendId = 3;
+                    $corkageFeeId = 4;
+                    $numberOfExtraPersonId = 5;
+                    $additionalTimeFeeId = 6;
+                    $movies = $request->movies;
+                    $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
+                    $numberOfExtraPerson = $request->numberOfExtraPerson;
+                    $additionalTimeFee = $request->additionalTimeFee;
+                    $corkageFee = $request->corkageFee;
+                    $discountFeeId = 8;
+                    $discountFee = -$request->discountFee;
+                break;
+            case "Ktv Good For 4":
+                    $promoPrice = 0;
+                    $reservationfeeId = 7;
+                    $reservationFee = 0;
+                    $additionalPersonFee = 20;
+                    $roomPrice = 150;
+                    $sendId = 10;
+                    $corkageFeeId = 4;
+                    $numberOfExtraPersonId = 5;
+                    $additionalTimeFeeId = 6;
+                    $movies = $request->movies;
+                    $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
+                    $numberOfExtraPerson = $request->numberOfExtraPerson;
+                    $additionalTimeFee = $request->additionalTimeFee;
+                    $corkageFee = $request->corkageFee;
+                    $discountFeeId = 8;
+                    $discountFee = -$request->discountFee;
+                break;
+            case "Ktv Good For 8":
+                    $promoPrice = 0;
+                    $reservationfeeId = 7;
+                    $reservationFee = 0;
+                    $additionalPersonFee = 20;
+                    $roomPrice = 199;
+                    $sendId = 11;
+                    $corkageFeeId = 4;
+                    $numberOfExtraPersonId = 5;
+                    $additionalTimeFeeId = 6;
+                    $movies = $request->movies;
+                    $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
+                    $numberOfExtraPerson = $request->numberOfExtraPerson;
+                    $additionalTimeFee = $request->additionalTimeFee;
+                    $corkageFee = $request->corkageFee;
+                    $discountFeeId = 8;
+                    $discountFee = -$request->discountFee;
                 break;
             case "Reservation":
                 $promoPrice = 0;
@@ -388,6 +466,8 @@ class RoomController extends Controller
                 $numberOfExtraPerson = $request->numberOfExtraPerson;
                 $additionalTimeFee = $request->additionalTimeFee;
                 $corkageFee = $request->corkageFee;
+                $discountFeeId = 7;
+                $discountFee = 0;
                 break;
             default:
                 $promoPrice = 0;
@@ -410,6 +490,8 @@ class RoomController extends Controller
                 $reservationfeeId = 7;
                 $numberOfExtraPersonId = 7;
                 $additionalTimeFeeId = 7;
+                $discountFeeId = 7;
+                $discountFee = 0;
         }
 
 
@@ -418,6 +500,8 @@ class RoomController extends Controller
         return view('rooms.roomSales.create')->with('sendId',$sendId)
             ->with('roomId',$roomId)
             ->with('reservationFee',$reservationFee)
+            ->with('discountFee',$discountFee)
+            ->with('discountFeeId',$discountFeeId)
             ->with('reservationfeeId',$reservationfeeId)
             ->with('additionalPersonFee',$additionalPersonFee)
             ->with('roomType',$roomType)->with('roomPrice',$roomPrice)

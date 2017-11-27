@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Supplier;
+use App\SaleItem;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
+
 
 class SupplierController extends Controller
 {
@@ -102,12 +106,17 @@ class SupplierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        $supplier = Supplier::findOrFail($id);
-        $supplier->delete();
+        $supplier = SaleItem::findOrFail($id);
 
-        return redirect('suppliers')
-            ->with('message-success', 'Supplier deleted!');
+        if($supplier->quantity > 1 && $request->type == 'reduce'){
+                $supplier->quantity -= 1;
+                $supplier->save();
+        }
+        else
+            $supplier->delete();
+
+        return Redirect::back();
     }
 }

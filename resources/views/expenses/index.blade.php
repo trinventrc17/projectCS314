@@ -27,7 +27,7 @@
                             <td>{{ $expense->purpose }}</td>
                              <td>{{ $expense->issued }}</td>
                             <td>{{ $expense->person }}</td>
-                            <td>{{ $expense->created_at }}</td>
+                            <td>{{ $expense->created_at->format('M. d, Y (g:ia)') }}</td>
                         </tr>
                     @empty
                         @include('partials.table-blank-slate', ['colspan' => 5])

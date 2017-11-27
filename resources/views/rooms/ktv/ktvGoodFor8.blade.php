@@ -11,25 +11,24 @@
             <div class="col-md-6 col-md-offset-0">
 
                 <div class="panel panel-default">
-                    <div class="panel-heading"> Movie Details
+                    <div class="panel-heading">  Movie / KTV Details
 
                     </div>
 
                     <div class="panel-body">
                     <div align="center">
-                         Movie(s) Title here
                     </div>
                    
                     <div class="form-group" align="center">
 
-                    <textarea name="movies" cols="50" rows="4" placeholder="Ex. Angry birds , 50 shades of Grey , Inception"></textarea>
+                <input type="hidden" class="form-control" id="movies" value="KTV-Sale" name="movies">
 
 
                     </div>
                     <br>
                     
                     <div class="form-group">
-                    {!! Form::label('numberOfMoviesOrHour','Number of Movies') !!}
+                    {!! Form::label('numberOfMoviesOrHour','Number of Hour/s') !!}
                         <input type="number" class="form-control" id="numberOfMoviesOrHour" value="1" name="numberOfMoviesOrHour">
                     </div>
 
@@ -60,7 +59,7 @@
                     <div class="panel-body">
 
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="roomType" name="roomType" value="Movie Good For 4">
+                        <input type="hidden" class="form-control" id="roomType" name="roomType" value="Ktv Good For 8">
                     </div>
 
                     <div class="form-group">

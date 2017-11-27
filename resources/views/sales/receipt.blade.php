@@ -3,10 +3,10 @@
 <head>
     <title>Receipt</title>
 </head>
-<body>  <!-- change to <body onload="window.print()"> for automatic printing -->
+<body onload="window.print()">  <!-- change to <body onload="window.print()"> for automatic printing -->
     <table>
         <tr>
-            <td colspan="3" align="center"><strong>GOOD TIMES</strong></td>
+            <td colspan= "3" align="center"><strong>GOOD TIMES</strong></td>
         </tr>
         <tr>
             <td colspan="3" align="center">MOVIE LOUNGE & KTV</td>

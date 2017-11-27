@@ -33,6 +33,11 @@ class SaleItem extends Model
         return $this->belongsTo('App\Product');
     }
 
+    public function sale()
+    {
+        return $this->belongsTo('App\Sale');
+    }
+
     // public static function search($params = [])
     // {
     //     return self::when(!empty($params), function ($query) use ($params) {

@@ -4,14 +4,16 @@
 <div class="container">
     <div class="row">
 
-<div class="col-md-5">
+<div class="col-md-7">
             <div class="panel panel-default">
                 <div class="panel-heading">Room Sales</div>
                 <table class="table">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Product name</th>
                             <th>Price</th>
+                            <th></th>
                             <th>Quantity</th>
                             <th>Sub Total</th>
                         </tr>
@@ -25,10 +27,32 @@
                                     @if($item->product->name == 'Additional Payment' || $item->price == 0 || $item->quantity == 0 )
                                     @else
                                     <tr>
-
+                                        <td>
+                                        <form id="delete-sale" action="{{ url('suppliers/' . $item->id) }}" method="POST" class="form-inline">
+                                            <input type="hidden" name="_method" value="delete">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="_method" value="delete">
+                                            <input type="hidden" name="type" value="all">
+                                            <input type="submit" value="Delete" class="btn btn-danger btn-xs pull-right btn-delete">
+                                        </form>
+                                        </td>
                                         <td>{{ $item->product->name }}</td>
                                         <td>₱ {{ number_format($item->price,2) }}</td>
-                                        <td>{{ $item->quantity }}</td>
+                                        <td>
+                                        
+                                        @if($item->quantity > 1)
+                                        <form id="delete-sale" action="{{ url('suppliers/' . $item->id) }}" method="POST" class="form-inline">
+                                            <input type="hidden" name="_method" value="delete">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="type" value="reduce">
+                                            <input type="submit" value="-" class="btn btn-danger btn-xs pull-right btn-delete">
+                                        </form>
+                                        </td>
+                                        @else
+                                        @endif
+                                        <td>
+                                        {{ $item->quantity }}
+                                        </td>
                                         <td>₱ {{ number_format($item->quantity * $item->price,2) }}</td>
                                     @endif
                                     </tr>
@@ -39,6 +63,9 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        
                                         <td>₱ {{$saleItem}}</td>
                                     </tr>
 
@@ -48,7 +75,7 @@
         </div>
 
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">Room Details - <strong>({{$sales[0]->roomType}})</strong></div>
 
@@ -56,13 +83,14 @@
                 <br>
                 <div><strong>Promo Type</strong><p class="pull-right">{{$sales[0]->promoType}}</p></div>
                 <br>
-                <div> <strong>Movie/s ({{$numberOfMoviesOrHour}})</strong><p class="pull-right">
+                <div> <strong>Movie/s ({{$numberOfMoviesOrHour}}) or KTV</strong><p class="pull-right">
                 @foreach($sales as $sale)
                     @if($sale->movies == 'None')
                     @else
-                    {{$sale->movies}},
+                        {{$sale->movies}},
                     @endif
                 @endforeach
+
                 </p></div>
                 <br>
 
@@ -92,6 +120,9 @@
                             <input type="hidden" class="form-control" id="startTime" name="startTime" value="{{$sales[$count]->startTime}}">
                        </div>
 
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="roomType" name="roomType" value="{{$sales[0]->roomType}}">
+                       </div>
 
                         <div class="form-group">
                             <input type="hidden" class="form-control" id="endTime" name="endTime" value="{{$sales[$count]->endTime}}">

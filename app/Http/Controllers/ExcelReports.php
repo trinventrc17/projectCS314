@@ -24,7 +24,7 @@ class ExcelReports extends Controller
 
 
     public function salesIndex(Request $request){
-        $sales = SaleItem::with('product')->paginate(20);
+        $sales = SaleItem::with(['product','sale'])->paginate(20);
         $saleTotal = SaleItem::sum(DB::raw('price * quantity'));
         $date_query = 'All';
     	return view ('printables.sales.index')

@@ -137,6 +137,13 @@ export default {
                      price:this.price[0].reservationfee,
                      barcode:this.price[0].session
                     },
+                    {
+                     id:this.price[0].discountFeeId,
+                     name:'--------------------------------',
+                     quantity:1,
+                     price:this.price[0].discountFee,
+                     barcode:this.price[0].session
+                    },
 
                  ],
             
@@ -239,6 +246,13 @@ export default {
                      price:this.price[0].reservationfee,
                      barcode:this.price[0].session
                     },
+                    {
+                     id:this.price[0].discountFeeId,
+                     name:'--------------------------------',
+                     quantity:1,
+                     price:this.price[0].discountFee,
+                     barcode:this.price[0].session
+                    },
                  ]
         },
 
@@ -285,6 +299,12 @@ export default {
                      name:'--------------------------------',
                      quantity:1,
                      price:this.price[0].reservationfee,
+                     barcode:this.price[0].session
+                    },                    {
+                     id:this.price[0].discountFeeId,
+                     name:'--------------------------------',
+                     quantity:1,
+                     price:this.price[0].discountFee,
                      barcode:this.price[0].session
                     },
                  ]

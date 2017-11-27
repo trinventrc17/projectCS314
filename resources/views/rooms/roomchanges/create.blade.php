@@ -11,11 +11,15 @@
             <div class="col-md-6 col-md-offset-0">
 
                 <div class="panel panel-default">
-                    <div class="panel-heading"> Movie Details
+                    <div class="panel-heading"> Movie / KTV Details
 
                     </div>
 
                     <div class="panel-body">
+
+                    @if($roomType == 'Ktv Good For 4' || $roomType == 'Ktv Good For 8')
+                        <input type="hidden" class="form-control" id="movies" value="KTV-Sale" name="movies">
+                    @else
                     <div align="center">
                          Movie(s) Title here
                     </div>
@@ -26,10 +30,11 @@
 
 
                     </div>
+                    @endif
                     <br>
                     
                     <div class="form-group">
-                    {!! Form::label('numberOfMoviesOrHour','Number of Movies') !!}
+                    {!! Form::label('numberOfMoviesOrHour','Number of Movies / Hour') !!}
                         <input type="number" class="form-control" id="numberOfMoviesOrHour" value="0" name="numberOfMoviesOrHour">
                     </div>
 
@@ -60,7 +65,7 @@
                     <div class="panel-body">
 
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="roomType" name="roomType" value="Good For 2">
+                        <input type="hidden" class="form-control" id="roomType" name="roomType" value="{{$roomType}}">
                     </div>
 
                     {!! Form::label('promoType','Promo Type') !!}

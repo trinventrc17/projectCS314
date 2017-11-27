@@ -38,8 +38,8 @@
                             <li><a href="{{ url('/printables/index/sales') }}">Sales</a></li>
                             <li><a href="{{ url('printables/index/earningsAndExpenses') }}">Earnings and Expenses</a></li>
                             <li><a href="{{ url('printables/index/products') }}">Products</a></li>
-                            <li><a href="{{ url('reports/sales') }}">Sales(Detailed)</a></li>
-                        </ul>
+<!--                             <li><a href="{{ url('reports/sales') }}">Sales(Detailed)</a></li>
+ -->                        </ul>
                     </li>
 
 <!--                     <li class="dropdown">

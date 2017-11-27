@@ -25,6 +25,7 @@
         additionalPersonFee : {{$additionalPersonFee}},
         reservationfee : {{$reservationFee}},
         reservationfeeId : {{$reservationfeeId}},
-
+        discountFee : {{$discountFee}},
+        discountFeeId : {{$discountFeeId}},
         }]"></walkinSales>
 @endsection

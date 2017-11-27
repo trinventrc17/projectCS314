@@ -24,6 +24,8 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>Ses. # </th>
+                            <th>Room </th>
                             <th>Date</th>
                             <th>Product Name</th>
                             <th>Category</th>
@@ -39,7 +41,9 @@
                             @if($sale->product->name == 'Additional Payment' || $sale->price == 0 || $sale->quantity == 0)
                             @else
                             <tr>
-                                <td>{{ $sale->created_at->format('F d, Y') }}</td>
+                                <td>{{ $sale->session }}</td>
+                                <td>{{ $sale->sale->customer['name'] }}</td>
+                                <td>{{ $sale->created_at->format('M. d, Y (g:ia)') }}</td>
                                 <td>{{ $sale->product->name }}</td>
                                 <td>{{ $sale->product->category }}</td>
                                 <td> ₱ {{ number_format($sale->price,2) }}</td>
@@ -52,6 +56,8 @@
                             @include('partials.table-blank-slate', ['colspan' => 5])
                     @endforelse
                             <tr>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
