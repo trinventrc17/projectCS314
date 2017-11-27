@@ -75,7 +75,8 @@
                     </tbody>
                 </table>
                 <div class="panel-footer" style="text-align: right; height: 50px">
-                </div> 
+                    
+                </div>
             </div>
         </div>
         <div class="col-md-4">

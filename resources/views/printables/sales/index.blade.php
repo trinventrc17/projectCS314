@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="panel panel-default">
-                <div class="panel-heading">Note : <strong>This is and Exportable File ,Click Export to Export to Excel</strong>
+                <div class="panel-heading">Note : <strong>This is an Exportable File ,Click Export to Export to Excel</strong>
 
                     <div class="pull-right">
 
@@ -63,6 +63,7 @@
                     </tbody>
                 </table>
                 <div class="panel-footer" style="text-align: right; height: 50px">
+                    {{$sales->links()}}
                 </div>
             </div>
         </div>

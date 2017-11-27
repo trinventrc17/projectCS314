@@ -24,7 +24,7 @@ class ExcelReports extends Controller
 
 
     public function salesIndex(Request $request){
-        $sales = SaleItem::with('product')->get();
+        $sales = SaleItem::with('product')->paginate(20);
         $saleTotal = SaleItem::sum(DB::raw('price * quantity'));
         $date_query = 'All';
     	return view ('printables.sales.index')
@@ -39,7 +39,7 @@ class ExcelReports extends Controller
         $date_range = $request->date_range;
         $date_query = $date_range;
 
-        $sales = SaleItem::whereDate('created_at', $date_range)->get();
+        $sales = SaleItem::whereDate('created_at', $date_range)->paginate(20);
 
         $saleTotal = SaleItem::whereDate('created_at', $date_range)
                 ->sum(DB::raw('price * quantity'));
@@ -61,7 +61,7 @@ class ExcelReports extends Controller
         $date_query = $date_range;
 
         if($date_range == 'Select Filter'){
-            $sales = SaleItem::with('product')->get();
+            $sales = SaleItem::with('product')->paginate(20);
             $saleTotal = SaleItem::sum(DB::raw('price * quantity'));            
         }
 
@@ -703,7 +703,7 @@ public function productsIndex(Request $request){
         $sales = DB::table('products')
                 ->where('category','!=','Room Sale')
                 ->orderByRaw(' price - capitalPrice ASC') 
-                ->get();
+                ->paginate(20);
 
         $saleTotal = Product::sum(DB::raw('sold * (price - capitalPrice)'));
         
@@ -723,7 +723,8 @@ public function productsIndex(Request $request){
         $sales = DB::table('products')
                 ->where('category','!=','Room Sale')
                 ->orderByRaw(' price - capitalPrice ASC')
-                ->whereDate('created_at', $date_range)->get();
+                ->whereDate('created_at', $date_range)
+                ->paginate(20);
 
         $saleTotal = Product::whereDate('created_at', $date_range)
                     ->sum(DB::raw('sold * (price - capitalPrice)'));
@@ -741,7 +742,9 @@ public function productsIndex(Request $request){
         $sales =  DB::table('products')
                 ->where('category','!=','Room Sale')
                 ->orderByRaw(' price - capitalPrice ASC')
-                ->whereDate('created_at', $date_range)->get();
+                ->whereDate('created_at', $date_range)
+                ->paginate(20);
+                
         $saleTotal = Product::sum(DB::raw('sold * (price - capitalPrice)'));
         
         $date_query = $date_range;
@@ -750,7 +753,7 @@ public function productsIndex(Request $request){
             $sales =  DB::table('products')
                     ->where('category','!=','Room Sale')
                     ->orderByRaw(' price - capitalPrice ASC')
-                    ->whereDate('created_at', $date_range)->get();
+                    ->whereDate('created_at', $date_range)->paginate(20);
             $saleTotal = Product::sum(DB::raw('sold * (price - capitalPrice)'));        
         }
 
@@ -760,7 +763,7 @@ public function productsIndex(Request $request){
                     ->where('category','!=','Room Sale')
                     ->orderByRaw(' price - capitalPrice ASC')
                     ->whereDay('created_at', '=', date('d'))
-                    ->get();
+                   ->paginate(20);
                 $saleTotal = DB::table('products')
                     ->where('category','!=','Room Sale')
                     ->orderByRaw(' price - capitalPrice ASC')
@@ -774,7 +777,7 @@ public function productsIndex(Request $request){
                     ->whereBetween('created_at', [
                     Carbon\Carbon::parse('last monday')->startOfDay(),
                     Carbon\Carbon::parse('next friday')->endOfDay(),
-                ])->get();
+                ])->paginate(20);
 
             $saleTotal= DB::table('products')
                     ->where('category','!=','Room Sale')
@@ -793,7 +796,7 @@ public function productsIndex(Request $request){
                     ->where('category','!=','Room Sale')
                     ->orderByRaw(' price - capitalPrice ASC')
                     ->whereMonth('created_at', '=', date('m'))
-                ->get();
+                ->paginate(20);
             $saleTotal= DB::table('products')
                     ->where('category','!=','Room Sale')
                     ->orderByRaw(' price - capitalPrice ASC')
@@ -830,8 +833,7 @@ public function productsIndex(Request $request){
                     $sales = DB::table('products')
                             ->where('category','!=','Room Sale')
                             ->orderByRaw(' price - capitalPrice ASC') 
-                            ->get();
-
+                            ->paginate(20);
                     $saleTotal = Product::sum(DB::raw('sold * (price - capitalPrice)'));
                     $date_query = $date_range;
 
@@ -849,7 +851,7 @@ public function productsIndex(Request $request){
                         $sales =  DB::table('products')
                                 ->where('category','!=','Room Sale')
                                 ->orderByRaw(' price - capitalPrice ASC')
-                                ->whereDate('created_at', $date_range)->get();
+                                ->whereDate('created_at', $date_range)->paginate(20);
                         $saleTotal = Product::sum(DB::raw('sold * (price - capitalPrice)'));             
                     }
 
@@ -859,7 +861,7 @@ public function productsIndex(Request $request){
                             ->where('category','!=','Room Sale')
                             ->orderByRaw(' price - capitalPrice ASC')
                             ->whereDay('created_at', '=', date('d'))
-                            ->get();
+                            ->paginate(20);
                         $saleTotal = DB::table('products')
                             ->where('category','!=','Room Sale')
                             ->orderByRaw(' price - capitalPrice ASC')
@@ -873,7 +875,7 @@ public function productsIndex(Request $request){
                                 ->whereBetween('created_at', [
                                 Carbon\Carbon::parse('last monday')->startOfDay(),
                                 Carbon\Carbon::parse('next friday')->endOfDay(),
-                            ])->get();
+                            ])->paginate(20);
 
                         $saleTotal= DB::table('products')
                                 ->where('category','!=','Room Sale')
@@ -892,7 +894,7 @@ public function productsIndex(Request $request){
                                 ->where('category','!=','Room Sale')
                                 ->orderByRaw(' price - capitalPrice ASC')
                                 ->whereMonth('created_at', '=', date('m'))
-                            ->get();
+                           ->paginate(20);
                         $saleTotal= DB::table('products')
                                 ->where('category','!=','Room Sale')
                                 ->orderByRaw(' price - capitalPrice ASC')
@@ -906,7 +908,7 @@ public function productsIndex(Request $request){
                         $sales = DB::table('products')
                                 ->where('category','!=','Room Sale')
                                 ->orderByRaw(' price - capitalPrice ASC')
-                                ->whereDate('created_at', $date_range)->get();
+                                ->whereDate('created_at', $date_range)->paginate(20);
 
                         $saleTotal = Product::whereDate('created_at', $date_range)
                                     ->sum(DB::raw('sold * (price - capitalPrice)'));
