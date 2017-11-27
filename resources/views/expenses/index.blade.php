@@ -15,6 +15,8 @@
                         <tr>
                             <th>Amount</th>
                             <th>Purpose</th>
+                            <th>Issued By</th>
+                            <th>Issued To</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -23,6 +25,8 @@
                         <tr>
                             <td>₱ {{ number_format($expense->amount,2) }}</td>
                             <td>{{ $expense->purpose }}</td>
+                             <td>{{ $expense->issued }}</td>
+                            <td>{{ $expense->person }}</td>
                             <td>{{ $expense->created_at }}</td>
                         </tr>
                     @empty

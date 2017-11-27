@@ -21,7 +21,14 @@
                             <input type="text" class="form-control" id="purpose" name="purpose" value="{{ old('purpose') }}">
                         </div>
 
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="issued" name="issued" value="{{Auth::user()->name}}">
+                        </div>
 
+                        <div class="form-group">
+                            <label for="name">Issued To</label>
+                            <input type="text" class="form-control" id="person" name="person" value="{{ old('person') }}">
+                        </div>
 
 
                         <div class="form-group">

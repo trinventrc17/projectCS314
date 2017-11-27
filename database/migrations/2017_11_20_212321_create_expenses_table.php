@@ -17,6 +17,7 @@ class CreateExpensesTable extends Migration
             $table->increments('id');
             $table->string('amount');
             $table->string('person');
+            $table->string('issued');
             $table->string('purpose');
             $table->timestamps();
         });
