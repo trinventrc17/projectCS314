@@ -33,6 +33,7 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
+                            <th>Capital Price</th>
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Category</th>
@@ -43,6 +44,7 @@
                         <tr>
                             <td>{{ $products->firstItem() + $key }}</td>
                             <td>{{ $product->name }}</td>
+                            <td>{{ $product->capitalPrice }}</td>
                             <td>{{ $product->price }}</td>
                             <td>{{ $product->quantity }}</td>
                             <td>{{ $product->category }}</td>

@@ -62,11 +62,10 @@
                     </tbody>
                 </table>
                 <div class="panel-footer" style="text-align: right; height: 70px">
-                    {{$sales->links()}}
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">Simple Filter</div>
 
@@ -102,9 +101,9 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <div class="col-md-8">
+        <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">Total Sales</div>
 

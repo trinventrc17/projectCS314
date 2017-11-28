@@ -54,7 +54,7 @@
 
                 <div class="panel-body">
                 <br>
-                <div><strong>Promo Type</strong><p class="pull-right">{{$sales[0]->promoType}}</p></div>
+                <div><strong>Type</strong><p class="pull-right">{{$sales[0]->promoType}}</p></div>
                 <br>
                 <div> <strong>Customer Details</strong><p class="pull-right">
                 @foreach($sales as $sale)

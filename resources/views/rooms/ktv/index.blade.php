@@ -24,7 +24,7 @@
                         <br>                        
 
                     <div align="center">
-                        <a href="{{ url('rooms/' .$id . '/ktvGoodFor4') }}">
+                        <a href="{{ url('rooms/' .$id . '/ktvGoodFor8') }}">
                         <button type="submit" class="btn btn-primary">Good For 8</button>
                         </a>
                     </div>

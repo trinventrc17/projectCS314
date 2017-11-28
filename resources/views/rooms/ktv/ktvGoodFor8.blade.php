@@ -73,7 +73,7 @@
                     <br>
 
                     <div class="form-group">
-                    {!! Form::label('additionalTimeFee','Additional Movie Time Fee') !!}
+                    {!! Form::label('additionalTimeFee','Additional Time Fee') !!}
                         <input type="number" class="form-control" id="additionalTimeFee" value ="0" name="additionalTimeFee">
                     </div>
 

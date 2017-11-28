@@ -21,9 +21,9 @@
                   <a href="{{ url('rooms/' . $room->id . '/checkstatus') }}">         
                     <div class="col-md-4"> <!-- start-col -->
                         @if($room->status == 'Available')            
-                        <div class="well" style="background-color:#ecf0f1">
+                        <div class="well" style="background-color:pink">
                         @else
-                        <div class="well" style="background-color:#e74c3c">
+                        <div class="well" style="background-color:yellow">
                         @endif
                                 <p style="color:black">{{$room->name}}</p>
                                 <li style="color:black">{{$room->status}}</li>
@@ -35,10 +35,9 @@
                                     @endif
                                 @endforeach
                               @if($i !=0)  
-                             <li style="color:black">{{$sales[$i]->startTime}} - {{$sale->endTime}}</li>
                              @else
                              @endif
-
+                             <br>
                         </div> <!-- end-well -->
                     </div> <!-- end-col -->
                     </a>

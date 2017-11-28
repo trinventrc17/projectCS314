@@ -77,10 +77,6 @@ class StocksController extends Controller
         $product->quantity += $request->quantity;
         $product->save();
 
-        $stocks = InventoryTracking::create([
-                'user_id'=> $productFind->name,
-                'quantity' => $request->quantity,
-            ]);
 
         return redirect('stocks')
             ->with('message-success', 'Stocks created!');

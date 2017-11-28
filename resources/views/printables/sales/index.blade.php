@@ -69,7 +69,6 @@
                     </tbody>
                 </table>
                 <div class="panel-footer" style="text-align: right; height: 50px">
-                    {{$sales->links()}}
                 </div>
             </div>
         </div>
