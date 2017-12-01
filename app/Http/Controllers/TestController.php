@@ -18,148 +18,159 @@ class TestController extends Controller
 
 
 
-    public function walkinSale(Requests\RoomRequest $request ,$id)
-    {
+public function productsExcelPrintable(Request $request){
 
-        $promoType = $request->promoType;
-        $roomType = $request->roomType;
-        $startTime = $request->startTime;
-        $endTime = $request->endTime;
-        $movies = $request->movies;
-        $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
-        $numberOfExtraPerson = $request->numberOfExtraPerson;
-        $additionalTimeFee = $request->additionalTimeFee;
-        $corkageFee = $request->corkageFee;
-        $additionalPersonFee = 0;
-        $roomPrice = 230;
-        $roomId = $id;
-        $sendId = 0;
-        $room = Customer::findOrFail($id);
-        $session = $room->session;
-        $reservationFee = $request->reservationFee;
-        $reservationfeeId = 7;
-        $numberOfExtraPersonId = 7;
-        $additionalTimeFeeId = 7;
+            
+        $accept = $request->date_query;
+        $accept2 = $request->date_query2;
+
+            Excel::create('reports',function($excel) use ($accept,$accept2){
+
+                $date_range = $accept;
+                $date_range2 = $accept2;
+                $excel->sheet('reports',function($sheet) use ($date_range,$date_range2) {
+
+                $sales = DB::table('products')
+                        ->where('category','!=','Room Sale')
+                        ->orderByRaw(' price - capitalPrice ASC') 
+                        ->get();
 
 
+                $sales = DB::table('sale_items')
+                    ->join('products', 'sale_items.product_id', '=', 'products.id')
+                    ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price')
+                    ->where('products.category','!=','Room Sale')
+                    ->groupBy(DB::raw('product_id') )
+                    ->get();
 
-        switch ($roomType) {
-            case "None":
-                $sendId = 7;
-                $corkageFeeId = 7;
-                $corkageFee = 0;
-                $numberOfMoviesOrHour =0;
-                $numberOfExtraPersonId = 7;
-                $numberOfExtraPerson = 0;
-                $additionalTimeFeeId = 7;
-                $additionalTimeFee = 0;
-                break;
-            case "Good For 2":
-                if($promoType == 'Regular'){
-                    $reservationfeeId = 7;
-                    $reservationFee = 0;
-                    $additionalPersonFee = 60;
-                    $roomPrice = 260;
-                    $sendId = 1;
-                    $corkageFeeId = 4;
-                    $numberOfExtraPersonId = 5;
-                    $additionalTimeFeeId = 6;
-                    $movies = $request->movies;
-                    $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
-                    $numberOfExtraPerson = $request->numberOfExtraPerson;
-                    $additionalTimeFee = $request->additionalTimeFee;
-                    $corkageFee = $request->corkageFee;
-                }
-                else{
-                    $reservationfeeId = 7;
-                    $reservationFee = 0;
-                    $additionalPersonFee = 60;
-                    $roomPrice = 230;
-                    $sendId = 1;
-                    $corkageFeeId = 4;
-                    $numberOfExtraPersonId = 5;
-                    $additionalTimeFeeId = 6;
-                    $movies = $request->movies;
-                    $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
-                    $numberOfExtraPerson = $request->numberOfExtraPerson;
-                    $additionalTimeFee = $request->additionalTimeFee;
-                    $corkageFee = $request->corkageFee;
-                }
-                break;
-            case "Good For 4'":
-                $roomPrice = 450;
-                $sendId = 1;
-                $corkageFeeId = 4;
-                $numberOfExtraPersonId = 5;
-                $additionalTimeFeeId = 6;
-                $movies = $request->movies;
-                $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
-                $numberOfExtraPerson = $request->numberOfExtraPerson;
-                $additionalTimeFee = $request->additionalTimeFee;
-                $corkageFee = $request->corkageFee;
-                break;
-            case "Good For 8"
-                $roomPrice = 800;
-                $sendId = 3;
-                $corkageFeeId = 4;
-                $numberOfExtraPersonId = 5;
-                $additionalTimeFeeId = 6;
-                break;
-            case "Reservation":
-                $reservationfeeId = 7;
-                $reservationFee = $request->reservationFee;
-                $additionalPersonFee = 0;
-                $roomPrice = 0;
-                $sendId = 1;
-                $corkageFeeId = 4;
-                $numberOfExtraPersonId = 5;
-                $additionalTimeFeeId = 6;
-                $movies = $request->movies;
-                $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
-                $numberOfExtraPerson = $request->numberOfExtraPerson;
-                $additionalTimeFee = $request->additionalTimeFee;
-                $corkageFee = $request->corkageFee;.
-                break;
-            default:
-                $promoType = $request->promoType;
-                $roomType = $request->roomType;
-                $startTime = $request->startTime;
-                $endTime = $request->endTime;
-                $movies = $request->movies;
-                $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
-                $numberOfExtraPerson = $request->numberOfExtraPerson;
-                $additionalTimeFee = $request->additionalTimeFee;
-                $corkageFee = $request->corkageFee;
-                $additionalPersonFee = 0;
-                $roomPrice = 230;
-                $roomId = $id;
-                $sendId = 0;
-                $room = Customer::findOrFail($id);
-                $session = $room->session;
-                $reservationFee = $request->reservationFee;
-                $reservationfeeId = 7;
-                $numberOfExtraPersonId = 7;
-                $additionalTimeFeeId = 7;
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));
+
+
+
+                    $date_query = $date_range;
+
+                    if($date_range == 'All'){
+                        $sales = DB::table('sale_items')
+                            ->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->where('products.category','!=','Room Sale')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price')
+                            ->groupBy(DB::raw('product_id') )
+                            ->get();
+
+
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));                          
+                    }
+
+
+                    elseif($date_range == 'Select Filter'){
+                        $sales = DB::table('sale_items')
+                            ->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->where('products.category','!=','Room Sale')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price')
+                            ->groupBy(DB::raw('product_id') )
+                            ->get();
+
+
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));            
+                    }
+
+
+                    elseif($date_range == 'Today'){
+                        $sales = DB::table('sale_items')
+                            ->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->whereDay('sale_items.created_at', '=', date('d'))
+                            ->groupBy(DB::raw('product_id') )
+                            ->get();
+
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->whereDay('sale_items.created_at', '=', date('d'))
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));
+                    }
+
+                    elseif ($date_range == 'This Week'){
+                        $sales = DB::table('sale_items')
+                            ->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->whereBetween('sale_items.created_at', [
+                                Carbon\Carbon::parse('last monday')->startOfDay(),
+                                Carbon\Carbon::parse('next friday')->endOfDay(),
+                                ])
+                            ->groupBy(DB::raw('product_id') )
+                            ->get();
+
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->whereBetween('sale_items.created_at', [
+                                Carbon\Carbon::parse('last monday')->startOfDay(),
+                                Carbon\Carbon::parse('next friday')->endOfDay(),
+                                ])
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));           
+                    }
+
+
+                    elseif ($date_range == 'This Month'){
+                        $sales = DB::table('sale_items')
+                            ->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->whereMonth('sale_items.created_at', '=', date('m'))
+                            ->groupBy(DB::raw('product_id') )
+                            ->get();
+
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->whereMonth('sale_items.created_at', '=', date('m'))
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));               
+                    }
+
+
+                    else{
+                        $sales = DB::table('sale_items')
+                            ->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->whereBetween('sale_items.created_at',array($date_range,$date_range2))
+                            ->groupBy(DB::raw('product_id') )
+                            ->get();
+
+
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                                ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                                ->where('products.category','!=','Room Sale')
+                                ->whereBetween('sale_items.created_at',array($date_range,$date_range2))
+                                ->groupBy(DB::raw('product_id') )
+                                ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));
+                    }
+
+                    $sheet->loadView('printables.products.printable')
+                        ->with('sales',$sales)
+                        ->with('saleTotal',$saleTotal)
+                        ->with('date_query',$date_query);
+                });
+            })->export('xlsx');    
         }
-
-
-
-
-        return view('rooms.roomSales.create')->with('sendId',$sendId)
-            ->with('roomId',$roomId)
-            ->with('reservationFee',$reservationFee)
-            ->with('reservationfeeId',$reservationfeeId)
-            ->with('additionalPersonFee',$additionalPersonFee)
-            ->with('roomType',$roomType)->with('roomPrice',$roomPrice)
-            ->with('promoType',$promoType)->with('promoPrice',$promoPrice)
-            ->with('session',$session)
-            ->with('startTime',$startTime) ->with('endTime',$endTime)
-            ->with('numberOfExtraPerson',$numberOfExtraPerson)->with('numberOfExtraPersonId',$numberOfExtraPersonId)
-            ->with('movies',$movies)->with('numberOfMoviesOrHour',$numberOfMoviesOrHour)
-            ->with('additionalTimeFee',$additionalTimeFee)->with('additionalTimeFeeId',$additionalTimeFeeId)
-            ->with('corkageFee',$corkageFee)->with('corkageFeeId',$corkageFeeId);
-    }
-
 
 
     

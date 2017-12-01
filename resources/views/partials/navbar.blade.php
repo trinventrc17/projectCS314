@@ -28,9 +28,10 @@
                         <ul class="dropdown-menu" role="menu">
 <!--                             <li><a href="{{ url('inventories/receivings') }}">Receivings</a></li>
                             <li><a href="{{ url('inventories/adjustments') }}">Adjustments</a></li> -->
-<!--                             <li><a href="{{ url('inventories/trackings') }}">Trackings</a></li> -->
-                            <li><a href="{{ url('stocks') }}">Stocks</a></li>
-                        </ul>
+                            <li><a href="{{ url('inventories/trackings') }}">Trackings</a></li>
+                            <li><a href="{{ url('stocks') }}">Add</a></li>
+<!--                             <li><a href="{{ url('/stocks/index/products') }}">Stocks</a></li>
+ -->                        </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reports <span class="caret"></span></a>

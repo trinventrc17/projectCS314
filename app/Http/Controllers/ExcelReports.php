@@ -730,7 +730,21 @@ public function productsIndex(Request $request){
                 ->orderByRaw(' price - capitalPrice ASC') 
                 ->get();
 
-        $saleTotal = Product::where('category','!=','Room Sale')->sum(DB::raw('sold * (price - capitalPrice)'));
+
+        $sales = DB::table('sale_items')
+            ->join('products', 'sale_items.product_id', '=', 'products.id')
+            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price')
+            ->where('products.category','!=','Room Sale')
+            ->groupBy(DB::raw('product_id') )
+            ->get();
+
+
+
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));
         
         $date_query = 'All';
         $date_query2 = 'All';
@@ -749,16 +763,21 @@ public function productsIndex(Request $request){
         $date_query = $date_range;
         $date_query2 = $date_range2;
 
+        $sales = DB::table('sale_items')
+            ->join('products', 'sale_items.product_id', '=', 'products.id')
+            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+            ->where('products.category','!=','Room Sale')
+            ->whereBetween('sale_items.created_at',array($date_range,$date_range2))
+            ->groupBy(DB::raw('product_id') )
+            ->get();
 
-        $sales = DB::table('products')
-                ->where('category','!=','Room Sale')
-                ->orderByRaw(' price - capitalPrice ASC')
-                ->whereBetween('created_at',array($date_range,$date_range2))
-                ->get();
 
-        $saleTotal = Product::where('category','!=','Room Sale')
-                    ->whereBetween('created_at',array($date_range,$date_range2))
-                    ->sum(DB::raw('sold * (price - capitalPrice)'));
+        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                ->where('products.category','!=','Room Sale')
+                ->whereBetween('sale_items.created_at',array($date_range,$date_range2))
+                ->groupBy(DB::raw('product_id') )
+                ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));
 
         return view ('printables.products.index')
             ->with('sales',$sales)
@@ -774,7 +793,6 @@ public function productsIndex(Request $request){
         $date_range2 = $request->date_range2;
         $date_query = $date_range;
         $date_query2 = $date_range2;
-        $date = Carbon::now()->format('Y-m-d');
 
         $sales =  DB::table('products')
                 ->where('category','!=','Room Sale')
@@ -782,73 +800,100 @@ public function productsIndex(Request $request){
                 ->whereDate('created_at', $date_range)
                 ->get();
                 
-        $saleTotal = Product::where('category','!=','Room Sale')->sum(DB::raw('sold * (price - capitalPrice)'));
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));       
         
         $date_query = $date_range;
 
         if($date_range == 'Select Filter'){
-            $sales =  DB::table('products')
-                    ->where('category','!=','Room Sale')
-                    ->orderByRaw(' price - capitalPrice ASC')
-                    ->whereDate('created_at', $date_range)->get();
-            $saleTotal = Product::where('category','!=','Room Sale')->sum(DB::raw('sold * (price - capitalPrice)'));        
+
+
+        $sales = DB::table('sale_items')
+            ->join('products', 'sale_items.product_id', '=', 'products.id')
+            ->where('products.category','!=','Room Sale')
+            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price')
+            ->groupBy(DB::raw('product_id') )
+            ->get();
+
+
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));           
         }
 
 
         if($date_range == 'Today'){
-                $sales = DB::table('products')
-                    ->where('category','!=','Room Sale')
-                    ->orderByRaw(' price - capitalPrice ASC')
-                    ->whereDay('created_at', '=', date('d'))
-                   ->get();
-                $saleTotal = DB::table('products')
-                    ->where('category','!=','Room Sale')
-                    ->orderByRaw(' price - capitalPrice ASC')
-                    ->whereDay('created_at', '=', date('d'))->sum(DB::raw('sold * (price - capitalPrice)'));
+
+
+
+            $sales = DB::table('sale_items')
+                ->join('products', 'sale_items.product_id', '=', 'products.id')
+                ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                ->where('products.category','!=','Room Sale')
+                ->whereDay('sale_items.created_at', '=', date('d'))
+                ->groupBy(DB::raw('product_id') )
+                ->get();
+
+            $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                ->where('products.category','!=','Room Sale')
+                ->whereDay('sale_items.created_at', '=', date('d'))
+                ->groupBy(DB::raw('product_id') )
+                ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));
+
         }
 
         if ($date_range == 'This Week'){
-             $sales =DB::table('products')
-                    ->where('category','!=','Room Sale')
-                    ->orderByRaw(' price - capitalPrice ASC')
-                    ->whereBetween('created_at', [
+            $sales = DB::table('sale_items')
+                ->join('products', 'sale_items.product_id', '=', 'products.id')
+                ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                ->where('products.category','!=','Room Sale')
+                ->whereBetween('sale_items.created_at', [
                     Carbon\Carbon::parse('last monday')->startOfDay(),
                     Carbon\Carbon::parse('next friday')->endOfDay(),
-                ])->get();
+                    ])
+                ->groupBy(DB::raw('product_id') )
+                ->get();
 
-            $saleTotal= DB::table('products')
-                    ->where('category','!=','Room Sale')
-                    ->orderByRaw(' price - capitalPrice ASC')
-                    ->select(DB::raw('YEAR(created_at) year'))
-                ->whereBetween('created_at', [
+            $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                ->where('products.category','!=','Room Sale')
+                ->whereBetween('sale_items.created_at', [
                     Carbon\Carbon::parse('last monday')->startOfDay(),
                     Carbon\Carbon::parse('next friday')->endOfDay(),
-                ])
-                    ->sum(DB::raw('sold * (price - capitalPrice)'));           
+                    ])
+                ->groupBy(DB::raw('product_id') )
+                ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));         
         }
 
 
         if ($date_range == 'This Month'){
-            $sales= DB::table('products')
-                    ->where('category','!=','Room Sale')
-                    ->orderByRaw(' price - capitalPrice ASC')
-                    ->whereMonth('created_at', '=', date('m'))
+            $sales = DB::table('sale_items')
+                ->join('products', 'sale_items.product_id', '=', 'products.id')
+                ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                ->where('products.category','!=','Room Sale')
+                ->whereMonth('sale_items.created_at', '=', date('m'))
+                ->groupBy(DB::raw('product_id') )
                 ->get();
-            $saleTotal= DB::table('products')
-                    ->where('category','!=','Room Sale')
-                    ->orderByRaw(' price - capitalPrice ASC')
-                    ->select(DB::raw('MONTH(created_at) month'))
-                ->whereMonth('created_at', '=', date('m'))
-                ->sum(DB::raw('sold * (price - capitalPrice)'));            
+
+            $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                ->where('products.category','!=','Room Sale')
+                ->whereMonth('sale_items.created_at', '=', date('m'))
+                ->groupBy(DB::raw('product_id') )
+                ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));            
         }
 
 
         return view ('printables.products.index')
             ->with('sales',$sales)->with('saleTotal',$saleTotal)
             ->with('date_query',$date_query)
-            ->with('date_query2',$date_query2)
-            ->with('date',$date);
-
+            ->with('date_query2',$date_query2);
     }
 
 
@@ -861,96 +906,148 @@ public function productsIndex(Request $request){
 
         public function productsExcelPrintable(Request $request){
 
-            $accept = $request->date_query;
+            
+        $accept = $request->date_query;
+        $accept2 = $request->date_query2;
 
-            Excel::create('reports',function($excel) use ($accept){
+            Excel::create('reports',function($excel) use ($accept,$accept2){
 
                 $date_range = $accept;
+                $date_range2 = $accept2;
+                $excel->sheet('reports',function($sheet) use ($date_range,$date_range2) {
 
-                $excel->sheet('reports',function($sheet) use ($date_range) {
+                $sales = DB::table('products')
+                        ->where('category','!=','Room Sale')
+                        ->orderByRaw(' price - capitalPrice ASC') 
+                        ->get();
 
-                    $sales = DB::table('products')
-                            ->where('category','!=','Room Sale')
-                            ->orderByRaw(' price - capitalPrice ASC') 
-                            ->get();
-                    $saleTotal = Product::where('category','!=','Room Sale')->sum(DB::raw('sold * (price - capitalPrice)'));
+
+                $sales = DB::table('sale_items')
+                    ->join('products', 'sale_items.product_id', '=', 'products.id')
+                    ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price')
+                    ->where('products.category','!=','Room Sale')
+                    ->groupBy(DB::raw('product_id') )
+                    ->get();
+
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));
+
+
+
                     $date_query = $date_range;
 
                     if($date_range == 'All'){
-                         $sales = DB::table('products')
-                                ->where('category','!=','Room Sale')
-                                ->orderByRaw(' price - capitalPrice ASC') 
-                                ->get();
+                        $sales = DB::table('sale_items')
+                            ->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->where('products.category','!=','Room Sale')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price')
+                            ->groupBy(DB::raw('product_id') )
+                            ->get();
 
-                        $saleTotal = Product::where('category','!=','Room Sale')->sum(DB::raw('sold * (price - capitalPrice)'));                       
+
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));                          
                     }
 
 
                     elseif($date_range == 'Select Filter'){
-                        $sales =  DB::table('products')
-                                ->where('category','!=','Room Sale')
-                                ->orderByRaw(' price - capitalPrice ASC')
-                                ->whereDate('created_at', $date_range)->get();
-                        $saleTotal = Product::where('category','!=','Room Sale')->sum(DB::raw('sold * (price - capitalPrice)'));             
+                        $sales = DB::table('sale_items')
+                            ->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->where('products.category','!=','Room Sale')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price')
+                            ->groupBy(DB::raw('product_id') )
+                            ->get();
+
+
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));            
                     }
 
 
                     elseif($date_range == 'Today'){
-                        $sales = DB::table('products')
-                            ->where('category','!=','Room Sale')
-                            ->orderByRaw(' price - capitalPrice ASC')
-                            ->whereDay('created_at', '=', date('d'))
+                        $sales = DB::table('sale_items')
+                            ->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->whereDay('sale_items.created_at', '=', date('d'))
+                            ->groupBy(DB::raw('product_id') )
                             ->get();
-                        $saleTotal = DB::table('products')
-                            ->where('category','!=','Room Sale')
-                            ->orderByRaw(' price - capitalPrice ASC')
-                            ->whereDay('created_at', '=', date('d'))->sum(DB::raw('sold * (price - capitalPrice)'));
+
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->whereDay('sale_items.created_at', '=', date('d'))
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));
                     }
 
                     elseif ($date_range == 'This Week'){
-                         $sales =DB::table('products')
-                                ->where('category','!=','Room Sale')
-                                ->orderByRaw(' price - capitalPrice ASC')
-                                ->whereBetween('created_at', [
+                        $sales = DB::table('sale_items')
+                            ->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->whereBetween('sale_items.created_at', [
                                 Carbon\Carbon::parse('last monday')->startOfDay(),
                                 Carbon\Carbon::parse('next friday')->endOfDay(),
-                            ])->get();
+                                ])
+                            ->groupBy(DB::raw('product_id') )
+                            ->get();
 
-                        $saleTotal= DB::table('products')
-                                ->where('category','!=','Room Sale')
-                                ->orderByRaw(' price - capitalPrice ASC')
-                                ->select(DB::raw('YEAR(created_at) year'))
-                            ->whereBetween('created_at', [
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->whereBetween('sale_items.created_at', [
                                 Carbon\Carbon::parse('last monday')->startOfDay(),
                                 Carbon\Carbon::parse('next friday')->endOfDay(),
-                            ])
-                                ->sum(DB::raw('sold * (price - capitalPrice)'));           
+                                ])
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));           
                     }
 
 
                     elseif ($date_range == 'This Month'){
-                        $sales= DB::table('products')
-                                ->where('category','!=','Room Sale')
-                                ->orderByRaw(' price - capitalPrice ASC')
-                                ->whereMonth('created_at', '=', date('m'))
-                           ->get();
-                        $saleTotal= DB::table('products')
-                                ->where('category','!=','Room Sale')
-                                ->orderByRaw(' price - capitalPrice ASC')
-                                ->select(DB::raw('MONTH(created_at) month'))
-                            ->whereMonth('created_at', '=', date('m'))
-                            ->sum(DB::raw('sold * (price - capitalPrice)'));              
+                        $sales = DB::table('sale_items')
+                            ->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->whereMonth('sale_items.created_at', '=', date('m'))
+                            ->groupBy(DB::raw('product_id') )
+                            ->get();
+
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->whereMonth('sale_items.created_at', '=', date('m'))
+                            ->groupBy(DB::raw('product_id') )
+                            ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));               
                     }
 
 
                     else{
-                        $sales = DB::table('products')
-                                ->where('category','!=','Room Sale')
-                                ->orderByRaw(' price - capitalPrice ASC')
-                                ->whereDate('created_at', $date_range)->get();
+                        $sales = DB::table('sale_items')
+                            ->join('products', 'sale_items.product_id', '=', 'products.id')
+                            ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                            ->where('products.category','!=','Room Sale')
+                            ->whereBetween('sale_items.created_at',array($date_range,$date_range2))
+                            ->groupBy(DB::raw('product_id') )
+                            ->get();
 
-                        $saleTotal = Product::where('category','!=','Room Sale')->whereDate('created_at', $date_range)
-                                    ->sum(DB::raw('sold * (price - capitalPrice)'));
+
+                        $saleTotal = DB::table('sale_items')->join('products', 'sale_items.product_id', '=', 'products.id')
+                                ->select('products.name as name' ,DB::raw('sum(sale_items.quantity) as sold'),'products.capitalPrice as capitalPrice','products.price as price','sale_items.created_at as created_at')
+                                ->where('products.category','!=','Room Sale')
+                                ->whereBetween('sale_items.created_at',array($date_range,$date_range2))
+                                ->groupBy(DB::raw('product_id') )
+                                ->sum(DB::raw('sale_items.quantity * (products.price - products.capitalPrice)'));
                     }
 
                     $sheet->loadView('printables.products.printable')

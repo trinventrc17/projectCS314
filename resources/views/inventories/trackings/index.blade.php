@@ -11,11 +11,9 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>User</th>
                             <th>Product</th>
-                            <th>In</th>
-                            <th>Out</th>
+                            <th>Sold</th>
                             <th>Remarks</th>
                             <th>Date</th>
                         </tr>
@@ -26,12 +24,10 @@
                             @if($tracking->product->category == 'Room Sale')
                             @else
                             <tr>
-                                <td>{{ $trackings->firstItem() + $key }}</td>
                                 <td>{{ $tracking->user->name }}</td>
                                 <td>{{ ($tracking->product) ? $tracking->product->name : 'PROD-'.$tracking->product_id }}</td>
 
                                     @if ($tracking->trackable_type == 'App\SaleItem')
-                                        <td>-</td>
                                         <td>{{ $tracking->trackable->quantity }}</td>
                                         <td>Sales</td>
                                     @elseif ($tracking->trackable_type == 'App\ReceivingItem')
@@ -49,7 +45,7 @@
                                         <td>Adjustment</td>
                                     @endif
 
-                                <td>{{ $tracking->created_at->format('d F Y H:i') }}</td>
+                                <td>{{ $tracking->created_at->format('d F Y (g:i A)') }}</td>
                             </tr>
                             @endif
                         @endif

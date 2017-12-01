@@ -7,6 +7,8 @@ use App\Product;
 use Illuminate\Http\Request;
 use App\Stocks;
 use Auth;
+use DB;
+use Carbon;
 class StocksController extends Controller
 {
     /**
@@ -21,7 +23,130 @@ class StocksController extends Controller
         ->with('products',$products);
     }
 
+    public function productsIndex(Request $request){
+        $sales = DB::table('products')
+                ->where('category','!=','Room Sale')
+                ->orderByRaw(' price - capitalPrice ASC') 
+                ->get();
 
+        $saleTotal = Product::where('category','!=','Room Sale')->sum(DB::raw('sold * (price - capitalPrice)'));
+        
+        $date_query = 'All';
+        $date_query2 = 'All';
+        return view ('inventories.stocks.view')
+            ->with('sales',$sales)
+            ->with('saleTotal',$saleTotal)
+            ->with('date_query',$date_query)
+            ->with('date_query2',$date_query2);
+    }
+
+
+    public function productsCustomizedFilter(Request $request){
+
+        $date_range = $request->date_range;
+        $date_range2 = $request->date_range2;
+        $date_query = $date_range;
+        $date_query2 = $date_range2;
+
+
+        $sales = DB::table('products')
+                ->where('category','!=','Room Sale')
+                ->orderByRaw(' price - capitalPrice ASC')
+                ->whereBetween('created_at',array($date_range,$date_range2))
+                ->get();
+
+        $saleTotal = Product::where('category','!=','Room Sale')
+                    ->whereBetween('created_at',array($date_range,$date_range2))
+                    ->sum(DB::raw('sold * (price - capitalPrice)'));
+
+        return view ('inventories.stocks.view')
+            ->with('sales',$sales)
+            ->with('saleTotal',$saleTotal)
+            ->with('date_query',$date_query)
+            ->with('date_query2',$date_query2);
+
+    }
+
+
+    public function productsDefaultFilter (Request $request){
+        $date_range = $request->date_range;
+        $date_range2 = $request->date_range2;
+        $date_query = $date_range;
+        $date_query2 = $date_range2;
+
+        $sales =  DB::table('products')
+                ->where('category','!=','Room Sale')
+                ->orderByRaw(' price - capitalPrice ASC')
+                ->whereDate('created_at', $date_range)
+                ->get();
+                
+        $saleTotal = Product::where('category','!=','Room Sale')->sum(DB::raw('sold * (price - capitalPrice)'));
+        
+        $date_query = $date_range;
+
+        if($date_range == 'Select Filter'){
+            $sales =  DB::table('products')
+                    ->where('category','!=','Room Sale')
+                    ->orderByRaw(' price - capitalPrice ASC')
+                    ->whereDate('created_at', $date_range)->get();
+            $saleTotal = Product::where('category','!=','Room Sale')->sum(DB::raw('sold * (price - capitalPrice)'));        
+        }
+
+
+        if($date_range == 'Today'){
+                $sales = DB::table('products')
+                    ->where('category','!=','Room Sale')
+                    ->orderByRaw(' price - capitalPrice ASC')
+                    ->whereDay('created_at', '=', date('d'))
+                   ->get();
+                $saleTotal = DB::table('products')
+                    ->where('category','!=','Room Sale')
+                    ->orderByRaw(' price - capitalPrice ASC')
+                    ->whereDay('created_at', '=', date('d'))->sum(DB::raw('sold * (price - capitalPrice)'));
+        }
+
+        if ($date_range == 'This Week'){
+             $sales =DB::table('products')
+                    ->where('category','!=','Room Sale')
+                    ->orderByRaw(' price - capitalPrice ASC')
+                    ->whereBetween('created_at', [
+                    Carbon\Carbon::parse('last monday')->startOfDay(),
+                    Carbon\Carbon::parse('next friday')->endOfDay(),
+                ])->get();
+
+            $saleTotal= DB::table('products')
+                    ->where('category','!=','Room Sale')
+                    ->orderByRaw(' price - capitalPrice ASC')
+                    ->select(DB::raw('YEAR(created_at) year'))
+                ->whereBetween('created_at', [
+                    Carbon\Carbon::parse('last monday')->startOfDay(),
+                    Carbon\Carbon::parse('next friday')->endOfDay(),
+                ])
+                    ->sum(DB::raw('sold * (price - capitalPrice)'));           
+        }
+
+
+        if ($date_range == 'This Month'){
+            $sales= DB::table('products')
+                    ->where('category','!=','Room Sale')
+                    ->orderByRaw(' price - capitalPrice ASC')
+                    ->whereMonth('created_at', '=', date('m'))
+                ->get();
+            $saleTotal= DB::table('products')
+                    ->where('category','!=','Room Sale')
+                    ->orderByRaw(' price - capitalPrice ASC')
+                    ->select(DB::raw('MONTH(created_at) month'))
+                ->whereMonth('created_at', '=', date('m'))
+                ->sum(DB::raw('sold * (price - capitalPrice)'));            
+        }
+
+
+        return view ('inventories.stocks.view')
+            ->with('sales',$sales)->with('saleTotal',$saleTotal)
+            ->with('date_query',$date_query)
+            ->with('date_query2',$date_query2);
+
+    }
 
 
     public function index(Request $request)

@@ -68,6 +68,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/stocks/addFromExisting/addFromExisting','StocksController@addFromExisting');
      Route::get('/stocks/ask/ask','StocksController@ask');
+            
+            Route::get('/stocks/index/products','StocksController@productsIndex');
+            Route::get('/stocks/index/products/productsDefaultFilter','StocksController@productsDefaultFilter');
+            Route::get('/stocks/index/products/productsCustomizedFilter','StocksController@productsCustomizedFilter');     
+
 
     Route::get('/productsReport','ProductsReportController@index');
         Route::get('/productsReport/productsSearched','ProductsReportController@productsSearched');
