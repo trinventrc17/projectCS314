@@ -733,38 +733,49 @@ public function productsIndex(Request $request){
         $saleTotal = Product::where('category','!=','Room Sale')->sum(DB::raw('sold * (price - capitalPrice)'));
         
         $date_query = 'All';
+        $date_query2 = 'All';
         return view ('printables.products.index')
             ->with('sales',$sales)
             ->with('saleTotal',$saleTotal)
-            ->with('date_query',$date_query);
+            ->with('date_query',$date_query)
+            ->with('date_query2',$date_query2);
     }
 
 
     public function productsCustomizedFilter(Request $request){
 
         $date_range = $request->date_range;
+        $date_range2 = $request->date_range2;
         $date_query = $date_range;
+        $date_query2 = $date_range2;
+
 
         $sales = DB::table('products')
                 ->where('category','!=','Room Sale')
                 ->orderByRaw(' price - capitalPrice ASC')
-                ->whereDate('created_at', $date_range)
+                ->whereBetween('created_at',array($date_range,$date_range2))
                 ->get();
 
         $saleTotal = Product::where('category','!=','Room Sale')
-                    ->whereDate('created_at', $date_range)
+                    ->whereBetween('created_at',array($date_range,$date_range2))
                     ->sum(DB::raw('sold * (price - capitalPrice)'));
 
         return view ('printables.products.index')
             ->with('sales',$sales)
             ->with('saleTotal',$saleTotal)
-            ->with('date_query',$date_query);
+            ->with('date_query',$date_query)
+            ->with('date_query2',$date_query2);
+
     }
 
 
     public function productsDefaultFilter (Request $request){
-
         $date_range = $request->date_range;
+        $date_range2 = $request->date_range2;
+        $date_query = $date_range;
+        $date_query2 = $date_range2;
+        $date = Carbon::now()->format('Y-m-d');
+
         $sales =  DB::table('products')
                 ->where('category','!=','Room Sale')
                 ->orderByRaw(' price - capitalPrice ASC')
@@ -834,7 +845,9 @@ public function productsIndex(Request $request){
 
         return view ('printables.products.index')
             ->with('sales',$sales)->with('saleTotal',$saleTotal)
-            ->with('date_query',$date_query);
+            ->with('date_query',$date_query)
+            ->with('date_query2',$date_query2)
+            ->with('date',$date);
 
     }
 

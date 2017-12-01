@@ -74,6 +74,10 @@ class RoomController extends Controller
 
     public function reservation($id){
         $customer = Customer::findOrFail($id);
+        $endTimeParsed = Carbon::parse( $customer->endTime);
+        $startTimeParsed = Carbon::parse( $customer->startTime);
+        $endTime = $endTimeParsed->format('g:i A');
+        $startTime = $startTimeParsed->format('g:i A');
 
         $find = $customer->session;
 
@@ -119,6 +123,8 @@ class RoomController extends Controller
             ->with('saleItem',$saleItem)
             ->with('sessionId',$sessionId)
             ->with('customer',$customer)
+            ->with('endTime',$endTime)
+            ->with('startTime',$startTime)
             ->with('id',$sendId);     
     }
 
@@ -458,7 +464,7 @@ class RoomController extends Controller
                 break;
             case "Reservation":
                 $promoPrice = 0;
-                $reservationfeeId = 7;
+                $reservationfeeId = 9;
                 $reservationFee = $request->reservationFee;
                 $additionalPersonFee = 0;
                 $roomPrice = 0;

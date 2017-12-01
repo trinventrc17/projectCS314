@@ -8,6 +8,9 @@ class Stocks extends Model
 {
 
 
+    protected $appends = [
+        'added_by',
+    ];
 
     public static $rules = [
         'name'  => 'required|',
@@ -17,6 +20,7 @@ class Stocks extends Model
     protected $fillable = [
         'name',
         'quantity',
+        'added_by',
     ];
 
 
@@ -24,8 +28,7 @@ class Stocks extends Model
     {
         if ($keyword != '') {
             $query->where(function ($query) use ($keyword) {
-                $query->where('name', 'LIKE', '%'.$keyword.'%')
-                    ->orWhere('barcode', 'LIKE', '%'.$keyword.'%');
+                $query->where('name', 'LIKE', '%'.$keyword.'%');
             });
         }
 

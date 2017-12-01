@@ -17,6 +17,7 @@ class CreateStocksTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('quantity');
+            $table->string('added_by');
             $table->timestamps();
         });
     }

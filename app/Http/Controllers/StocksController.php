@@ -6,7 +6,7 @@ use App\Http\Requests;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Stocks;
-
+use Auth;
 class StocksController extends Controller
 {
     /**
@@ -70,6 +70,7 @@ class StocksController extends Controller
 
         $stocks = Stocks::create([
                 'name'=> $productFind->name,
+                'added_by'=> Auth::user()->name,
                 'quantity' => $request->quantity,
             ]);
 

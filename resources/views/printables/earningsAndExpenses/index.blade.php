@@ -76,7 +76,7 @@
                                 <tr>
 
                                     <td>{{ \Carbon\Carbon::parse($earning->day)->format('M d, Y')}}</td>
-                                    <td>₱ {{ $earning->total }}</td>
+                                    <td>₱ {{ number_format($earning->total,2) }}</td>
                                     <td>
                                     @foreach ($expenses as $key => $expense)
                                         @if($expense->day == $earning->day)

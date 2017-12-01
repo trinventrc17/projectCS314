@@ -106,7 +106,7 @@
 
         <div class="col-md-4">
             <div class="panel panel-default">
-                <div class="panel-heading">Simple Filter</div>
+                <div class="panel-heading">Customized Filter</div>
 
                 <div class="panel-body">
                     <form action="{{ url('/printables/index/sales/salesCustomizedFilter') }}" method="GET">

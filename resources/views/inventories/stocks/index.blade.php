@@ -17,7 +17,7 @@
                             <div class="input-group">
                                 @if(!empty($keyword))
                                 <span class="input-group-btn">
-                                    <a href="{{ url('inventories') }}" class="btn btn-primary">Clear</a>
+                                    <a href="{{ url('stocks') }}" class="btn btn-primary">Clear</a>
                                 </span>
                                 @endif
                                 <input type="text" name="q" class="form-control" value="{{ $keyword }}">
@@ -33,15 +33,18 @@
                         <tr>
                             <th>Name</th>
                             <th>Items Added</th>
+                            <th>Added By</th>
                             <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
                     @forelse ($stocks as $key => $stock)
                         <tr>
+
                             <td>{{ $stock->name }}</td>
                             <td>{{ $stock->quantity }}</td>
-                            <td>{{ $stock->created_at }}</td>
+                            <td>{{ $stock->added_by }}</td>
+                            <td>{{ $stock->created_at->format('M d, Y (g:i A)') }}</td>
                         </tr>
                     @empty
                         @include('partials.table-blank-slate', ['colspan' => 4])

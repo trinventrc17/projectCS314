@@ -66,7 +66,7 @@
                 </p></div>
                 <br>
 
-                <div><strong>Time</strong><p class="pull-right">{{$sales[$count]->startTime}}-{{$sales[$count]->endTime}}</p></div>
+                <div><strong>Time</strong><p class="pull-right">{{$startTime}} to {{$endTime}}</p></div>
                 </div>
             </div>
         </div>

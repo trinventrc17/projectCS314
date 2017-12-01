@@ -46,9 +46,15 @@
     <script src="{{ asset('js/jquery.js') }}"></script>
     
 <!--     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  --> 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+<!--     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>    
+    <script src="../bower_components/jquery.countdown/dist/jquery.countdown.js"></script> -->
+ 
+
+    <script type="text/javascript" src="{{ asset('js/moment.js') }}"></script>
+    <link href="{{ asset('css/bootstrap-datetimepicker.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>    
     <script src="../bower_components/jquery.countdown/dist/jquery.countdown.js"></script>
   
         @yield('assets')
