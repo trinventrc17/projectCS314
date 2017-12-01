@@ -36,6 +36,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
+    Route::get('CountDownTimer','CountDownTimerController@index');
+    Route::get('CountDownTimer/trap','CountDownTimerController@trap');   
+    Route::post('CountDownTimer/save','CountDownTimerController@save');    
     //Excel Reports
     Route::get('ExportReports','ExcelReports@ExportReports');
             Route::get('/printables/index/sales','ExcelReports@salesIndex');

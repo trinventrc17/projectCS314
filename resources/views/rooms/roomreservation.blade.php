@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.home')
  
 @section('content')
 
@@ -36,15 +36,34 @@
                     </div>
 
                     <div class="form-group">
+                    {!! Form::label('discountFee','Discount') !!}
+                        <div style="position: relative">
+                            <input class="form-control" type="text" id="discountFee" value="0" name="discountFee"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
                     {!! Form::label('startTime','Start Time') !!}
-                        <input type="text" class="form-control" id="startTime" value="{{$startTime}}" name="startTime">
+                        <div style="position: relative">
+                            <input class="form-control" type="text" id="startTime" value="{{$startTime}}" name="startTime"/>
+                        </div>
+
                     </div>
 
                     <div class="form-group">
+                    <select id="todayOrTomorrow" name="todayOrTomorrow" class="pull-right"> 
+                        <option value="Today">Today</option>
+                        <option value="Tomorrow">Tomorrow</option>
+                    </select>
                     {!! Form::label('endTime','End Time') !!}
-                        <input type="text" class="form-control" id="endTime" value="{{$endTime}}" name="endTime">
+                        <div style="position: relative">
+                            <input class="form-control" type="text" id="endTime" value="{{$endTime}}" name="endTime"/>
+                        </div>
                     </div>
+
                     <br>
+
+
+
                         <input type="hidden" class="form-control" id="roomType" name="roomType" value="Reservation">
                         <input type="hidden" name="promoType" id="promoType" value="Reservation">
                         <input type="hidden" class="form-control" id="numberOfExtraPerson" value ="0" name="numberOfExtraPerson">
@@ -82,6 +101,16 @@
 
 
 
+<script>
+    $('#startTime').datetimepicker({
+        format: 'HH:mm A'
+    });
+</script>
+<script>
+    $('#endTime').datetimepicker({
+        format: 'HH:mm A'
+    });
+</script>
 
 
 @endsection

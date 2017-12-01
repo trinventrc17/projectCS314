@@ -1,6 +1,18 @@
     @extends('layouts.app')
 
 @section('content')
+
+<div class="container">
+        <div class="col-md-4 col-md-offset-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">Total Sales</div>
+
+                <div class="panel-body">
+                   ₱ {{ number_format($saleTotal,2) }}
+                </div>
+            </div>
+        </div>    
+</div>
 <?php $input['date_range'] = !empty($input['date_range']) ? $input['date_range'] : null; ?>
 <div class="container">
     <div class="row">
@@ -13,6 +25,7 @@
                         <form action="{{ url('/printables/index/sales/salesExcelPrintable') }}" method="GET">
                         {{ csrf_field() }}
                             <input type="hidden" class="form-control" id="date_query" name="date_query" value="{{$date_query}}">
+                            <input type="hidden" class="form-control" id="date_query" name="date_query2" value="{{$date_query2}}">
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary btn-sm">Export</button>
                             </div>
@@ -99,9 +112,15 @@
                     <form action="{{ url('/printables/index/sales/salesCustomizedFilter') }}" method="GET">
                     {{ csrf_field() }}
                         <div class="form-group">
-                        {!! Form::label('Date Range','Date Range') !!}
-                        {!! Form::input('date', 'date_range', null, ['class' => 'datepicker', 'data-date-format' => 'dd/mm/yy']) !!}
-
+                        {!! Form::label('Date Range','Date From:') !!}
+                        {!! Form::input('date', 'date_range', null, ['class' => 'datepicker pull-right', 'data-date-format' => 'dd/mm/yy']) !!}
+                        </div>
+                        
+                        
+                        <div class="form-group" class="pull-right">
+                        {!! Form::label('Date Range','Date To:') !!}
+                        {!! Form::input('date', 'date_range2', null, ['class' => 'datepicker pull-right', 'data-date-format' => 'dd/mm/yy']) !!}
+                        </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Search</button>
                         </div>
@@ -110,15 +129,7 @@
             </div>
         </div>
 
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">Total Sales</div>
 
-                <div class="panel-body">
-                   ₱ {{ number_format($saleTotal,2) }}
-                </div>
-            </div>
-        </div>
 
 
     </div>

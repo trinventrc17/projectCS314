@@ -33,7 +33,10 @@
                                             {{ csrf_field() }}
                                             <input type="hidden" name="_method" value="delete">
                                             <input type="hidden" name="type" value="all">
+                                            @if(Auth::user()->role_id !=1)
+                                            @else
                                             <input type="submit" value="Delete" class="btn btn-danger btn-xs pull-right btn-delete">
+                                            @endif
                                         </form>
                                         </td>
                                         <td>{{ $item->product->name }}</td>
@@ -45,7 +48,10 @@
                                             <input type="hidden" name="_method" value="delete">
                                             {{ csrf_field() }}
                                             <input type="hidden" name="type" value="reduce">
+                                            @if(Auth::user()->role_id !=1)
+                                            @else
                                             <input type="submit" value="-" class="btn btn-danger btn-xs pull-right btn-delete">
+                                            @endif
                                         </form>
                                         </td>
                                         @else
@@ -94,7 +100,7 @@
                 </p></div>
                 <br>
 
-                <div><strong>Time</strong><p class="pull-right">{{$sales[$count]->startTime}}-{{$sales[$count]->endTime}}</p></div>
+                <div><strong>Time</strong><p class="pull-right">{{$startTime}} to {{$endTime}}</p></div>
                 <br>
                 <div><strong>Additional Person</strong><p class="pull-right">{{$additionalPerson}}</p></div>
                 <br>

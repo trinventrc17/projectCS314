@@ -10,12 +10,19 @@
 
     <title>Good Times Movie Lounge</title>
 
+  
+
     <!-- Styles -->
 <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" >
 <!-- <link href="{{ asset('css/site.css') }}" rel="stylesheet" type="text/css" >
  --><link href="{{ asset('css/all.css') }}" rel="stylesheet" type="text/css" >
 <!-- <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" type="text/css" >
  -->    <!-- Scripts -->
+
+
+<!--  CountDown -->
+
+  
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken'  => csrf_token(),
@@ -34,5 +41,15 @@
       ga('send', 'pageview');
 
     </script>
+
+    <link href="{{ asset('css/bootstrapcdn.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/jquery.js') }}"></script>
+    
+<!--     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  --> 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>    
+    <script src="../bower_components/jquery.countdown/dist/jquery.countdown.js"></script>
+  
         @yield('assets')
 </head>

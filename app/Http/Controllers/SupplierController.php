@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Supplier;
 use App\SaleItem;
+use App\Product;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 
@@ -109,10 +110,15 @@ class SupplierController extends Controller
     public function destroy(Request $request,$id)
     {
         $supplier = SaleItem::findOrFail($id);
+        $product = Product::all();
 
         if($supplier->quantity > 1 && $request->type == 'reduce'){
                 $supplier->quantity -= 1;
                 $supplier->save();
+
+                $product = Product::findOrFail($supplier->product_id);
+                $product->sold -= 1;
+                $product->save();
         }
         else
             $supplier->delete();

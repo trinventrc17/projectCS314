@@ -31,6 +31,7 @@ class CreateSalesTable extends Migration
             $table->string('discountFee')->default('0');
             $table->string('additionalTimeFee')->default('0');
             $table->string('corkageFee')->default('0');
+            $table->string('todayOrTomorrow')->default('Today');
             $table->timestamps();
         });
     }

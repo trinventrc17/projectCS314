@@ -333,6 +333,7 @@ export default {
                         numberOfMoviesOrHour: this.price[0].numberOfMoviesOrHour,
                         additionalTimeFee: this.price[0].additionalTimeFee,
                         corkageFee: this.price[0].corkageFee,
+                        todayOrTomorrow: this.price[0].todayOrTomorrow,
                     items: _.map(this.cart, function(cart){
                         return {
                             product_id: cart.id,
@@ -380,6 +381,7 @@ export default {
                     numberOfExtraPerson: this.price[0].numberOfExtraPerson,
                     additionalTimeFee: this.price[0].additionalTimeFee,
                     corkageFee: this.price[0].corkageFee,
+                    todayOrTommorrow: this.price[0].todayOrTommorrow,
 
                     items: _.map(this.cart, function(cart){
                         return {

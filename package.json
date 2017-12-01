@@ -16,6 +16,7 @@
     "vue-resource": "^1.0.3"
   },
   "dependencies": {
+    "jquery-countdown": "^2.2.0",
     "vue-typeahead": "^2.3.0"
   }
 }

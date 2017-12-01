@@ -1,4 +1,4 @@
-                <table >
+                <table>
                     <thead>
                         <tr>
                             <th>Item Name</th>

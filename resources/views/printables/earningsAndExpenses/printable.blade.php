@@ -25,7 +25,7 @@
                                     <td>
                                     @foreach ($expenses as $key => $expense)
                                         @if($expense->day == $earning->day)
-                                            {{$expense->total}}
+                                            ₱ {{ number_format($expense->total,2) }}
                                         @else
                                         @endif
                                     @endforeach
@@ -43,7 +43,7 @@
                                             @php($j=0)
                                         @endif
                                     @endforeach
-                                            {{$earnings[$i]->total - $j}}
+                                            ₱ {{ number_format($earnings[$i]->total - $j,2) }}
                                     </td>
                                 </tr>
                         
@@ -54,7 +54,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>{{$saleTotal}}</td>
+                            <td>₱ {{ number_format($saleTotal,2) }}</td>
                         </tr>
                     @endif
                     </tbody>

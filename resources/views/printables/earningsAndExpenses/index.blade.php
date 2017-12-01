@@ -1,6 +1,45 @@
     @extends('layouts.app')
 
 @section('content')
+
+<div class="container">
+            <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Earnings Summary</div>
+
+                <div class="panel-body">
+
+           <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Week</th>
+                            <th>Month</th>
+                            <th>Year</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td> ₱ {{ number_format($dailyEarnings,2) }}</td>
+                        <td> ₱ {{ number_format($weeklyEarnings,2) }}</td>
+                        <td> ₱ {{ number_format($monthlyEarnings,2) }}</td>
+                        <td> ₱ {{ number_format($yearlyEarnings,2) }}</td>
+                        <td> ₱ {{ number_format($totalEarnings,2) }}</td>                    
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+
+
+
+</div>
+
+
+
+
 <?php $input['date_range'] = !empty($input['date_range']) ? $input['date_range'] : null; ?>
 <div class="container">
     <div class="row">
@@ -12,7 +51,8 @@
 
                         <form action="{{ url('/printables/index/earningsAndExpenses/earningsAndExpensesExcelPrintable') }}" method="GET">
                         {{ csrf_field() }}
-                            <input type="hidden" class="form-control" id="date_query" name="date_query" value="{{$date_query}}">
+                        <input type="hidden" class="form-control" id="date_query" name="date_query" value="{{$date_query}}">
+                        <input type="hidden" class="form-control" id="date_query" name="date_query2" value="{{$date_query2}}">
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary btn-sm">Export</button>
                             </div>
@@ -106,46 +146,20 @@
                     <form action="{{ url('/printables/index/earningsAndExpenses/earningsAndExpensesCustomizedFilter') }}" method="GET">
                     {{ csrf_field() }}
                         <div class="form-group">
-                        {!! Form::label('Date Range','Date Range') !!}
-                        {!! Form::input('date', 'date_range', null, ['class' => 'datepicker', 'data-date-format' => 'dd/mm/yy']) !!}
+                        {!! Form::label('Date Range','Date From:') !!}
+                        {!! Form::input('date', 'date_range', null, ['class' => 'datepicker pull-right', 'data-date-format' => 'dd/mm/yy']) !!}
+                        </div>
+                        
+                        
+                        <div class="form-group" class="pull-right">
+                        {!! Form::label('Date Range','Date To:') !!}
+                        {!! Form::input('date', 'date_range2', null, ['class' => 'datepicker pull-right', 'data-date-format' => 'dd/mm/yy']) !!}
+                        </div>
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Search</button>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">Earnings Summary</div>
-
-                <div class="panel-body">
-
-                <table>
-                    <tr>
-                        <td colspan=""><strong>Day-------------------------</strong></td>
-                        <td align="right">₱ {{$dailyEarnings}}</td>
-                    </tr>
-                    <tr>
-                        <td colspan=""><strong>Week-------------------------</strong></td>
-                        <td align="right">₱ {{$dailyEarnings}}</td>
-                    </tr>
-                    <tr>
-                        <td colspan=""><strong>Month-------------------------</strong></td>
-                        <td align="right">₱ {{$weeklyEarnings}}</td>
-                    </tr>
-                    <tr>
-                        <td colspan=""><strong>Year-------------------------</strong></td>
-                        <td align="right">₱ {{$yearlyEarnings}}</td>
-                    </tr>
-                    <tr>
-                        <td colspan=""><strong>Total-------------------------</strong></td>
-                        <td align="right">₱ {{$totalEarnings}}</td>
-                    </tr>
-                </table>
-
                 </div>
             </div>
         </div>

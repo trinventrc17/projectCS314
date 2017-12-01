@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.home')
  
 @section('content')
 
@@ -34,12 +34,21 @@
 
                     <div class="form-group">
                     {!! Form::label('startTime','Start Time') !!}
-                        <input type="text" class="form-control" id="startTime" value="{{$startTime}}" name="startTime">
+                        <div style="position: relative">
+                            <input class="form-control" type="text" id="startTime" value="{{$startTime}}" name="startTime"/>
+                        </div>
+
                     </div>
 
                     <div class="form-group">
+                    <select id="state" name="todayOrTomorrow" class="pull-right"> 
+                        <option value="Today">Today</option>
+                        <option value="Tomorrow">Tomorrow</option>
+                    </select>
                     {!! Form::label('endTime','End Time') !!}
-                        <input type="text" class="form-control" id="endTime" value="{{$endTime}}" name="endTime">
+                        <div style="position: relative">
+                            <input class="form-control" type="text" id="endTime" value="{{$endTime}}" name="endTime"/>
+                        </div>
                     </div>
                     <br>
 
@@ -120,6 +129,17 @@
 
 
 
+
+<script>
+    $('#startTime').datetimepicker({
+        format: 'HH:mm A'
+    });
+</script>
+<script>
+    $('#endTime').datetimepicker({
+        format: 'HH:mm A'
+    });
+</script>
 
 
 

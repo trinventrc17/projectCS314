@@ -27,8 +27,8 @@ class MovieController extends Controller
         $carbon_date = Carbon::parse($startTime1);
         $carbon_date->addHours(2);
 
-        $startTime = Carbon::now()->format('g:ia');
-        $endTime = $carbon_date->format('g:ia');
+        $startTime = Carbon::now()->format('H:m A');
+        $endTime = $carbon_date->format('H:m A');
         $sendId = $id;
         $sessionId = Sale::count() + 1;
         $item = Customer::find($id);

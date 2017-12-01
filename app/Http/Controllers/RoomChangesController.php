@@ -57,7 +57,6 @@ class RoomChangesController extends Controller
 
     public function roomChangesSale(Requests\RoomRequest $request ,$id)
     {
- 
 
         $promoType = $request->promoType;
         $roomType = $request->roomType;
@@ -79,8 +78,10 @@ class RoomChangesController extends Controller
         $reservationfeeId = 7;
         $numberOfExtraPersonId = 7;
         $additionalTimeFeeId = 7;
+        $discountFeeId = 7;
+        $discountFee = 0;
         $corkageFeeId = 7;
-
+        $todayOrTomorrow = $request->todayOrTomorrow;
 
         switch ($roomType) {
             case "None":
@@ -93,13 +94,17 @@ class RoomChangesController extends Controller
                 $additionalTimeFeeId = 7;
                 $additionalTimeFee = 0;
                 $promoPrice = 0;
+                $reservationFee = 0;
+                $reservationfeeId = 7;                
+                $discountFeeId = 7;
+                $discountFee = 0;
                 break;
             case "Movie Good For 2":
                 if($promoType == 'Regular'){
                     $promoPrice = 0;
                     $reservationfeeId = 7;
                     $reservationFee = 0;
-                    $additionalPersonFee = 60;
+                    $additionalPersonFee = 30;
                     $roomPrice = 260;
                     $sendId = 1;
                     $corkageFeeId = 4;
@@ -117,7 +122,7 @@ class RoomChangesController extends Controller
                     $promoPrice = 0;
                     $reservationfeeId = 7;
                     $reservationFee = 0;
-                    $additionalPersonFee = 60;
+                    $additionalPersonFee = 30;
                     $roomPrice = 230;
                     $sendId = 1;
                     $corkageFeeId = 4;
@@ -136,7 +141,7 @@ class RoomChangesController extends Controller
                     $promoPrice = 0;
                     $reservationfeeId = 7;
                     $reservationFee = 0;
-                    $additionalPersonFee = 60;
+                    $additionalPersonFee = 30;
                     $roomPrice = 450;
                     $sendId = 2;
                     $corkageFeeId = 4;
@@ -154,7 +159,7 @@ class RoomChangesController extends Controller
                     $promoPrice = 0;
                     $reservationfeeId = 7;
                     $reservationFee = 0;
-                    $additionalPersonFee = 60;
+                    $additionalPersonFee = 30;
                     $roomPrice = 800;
                     $sendId = 3;
                     $corkageFeeId = 4;
@@ -205,22 +210,22 @@ class RoomChangesController extends Controller
                     $discountFee = -$request->discountFee;
                 break;
             case "Reservation":
-                    $promoPrice = 0;
-                    $reservationfeeId = 7;
-                    $reservationFee = 0;
-                    $additionalPersonFee = 60;
-                    $roomPrice = 0;
-                    $sendId = 9;
-                    $corkageFeeId = 4;
-                    $numberOfExtraPersonId = 9;
-                    $additionalTimeFeeId = 9;
-                    $movies = $request->movies;
-                    $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
-                    $numberOfExtraPerson = $request->numberOfExtraPerson;
-                    $additionalTimeFee = $request->additionalTimeFee;
-                    $corkageFee = $request->corkageFee;
-                    $discountFeeId = 9;
-                    $discountFee = -$request->discountFee;
+                $promoPrice = 0;
+                $reservationfeeId = 7;
+                $reservationFee = $request->reservationFee;
+                $additionalPersonFee = 0;
+                $roomPrice = 0;
+                $sendId = 9;
+                $corkageFeeId = 4;
+                $numberOfExtraPersonId = 5;
+                $additionalTimeFeeId = 6;
+                $movies = $request->movies;
+                $numberOfMoviesOrHour = $request->numberOfMoviesOrHour;
+                $numberOfExtraPerson = $request->numberOfExtraPerson;
+                $additionalTimeFee = $request->additionalTimeFee;
+                $corkageFee = $request->corkageFee;
+                $discountFeeId = 7;
+                $discountFee = 0;
                 break;
             default:
                 $promoPrice = 0;
@@ -243,14 +248,18 @@ class RoomChangesController extends Controller
                 $reservationfeeId = 7;
                 $numberOfExtraPersonId = 7;
                 $additionalTimeFeeId = 7;
+                $discountFeeId = 7;
+                $discountFee = 0;
         }
 
 
 
 
-        return view('rooms.roomSales.roomChangesSale')->with('sendId',$sendId)
+        return view('rooms.roomSales.create')->with('sendId',$sendId)
             ->with('roomId',$roomId)
             ->with('reservationFee',$reservationFee)
+            ->with('discountFee',$discountFee)
+            ->with('discountFeeId',$discountFeeId)
             ->with('reservationfeeId',$reservationfeeId)
             ->with('additionalPersonFee',$additionalPersonFee)
             ->with('roomType',$roomType)->with('roomPrice',$roomPrice)
@@ -260,7 +269,8 @@ class RoomChangesController extends Controller
             ->with('numberOfExtraPerson',$numberOfExtraPerson)->with('numberOfExtraPersonId',$numberOfExtraPersonId)
             ->with('movies',$movies)->with('numberOfMoviesOrHour',$numberOfMoviesOrHour)
             ->with('additionalTimeFee',$additionalTimeFee)->with('additionalTimeFeeId',$additionalTimeFeeId)
-            ->with('corkageFee',$corkageFee)->with('corkageFeeId',$corkageFeeId);
+            ->with('corkageFee',$corkageFee)->with('corkageFeeId',$corkageFeeId)
+            ->with('todayOrTomorrow',$todayOrTomorrow);
     }
 
 

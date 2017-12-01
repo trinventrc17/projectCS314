@@ -41,7 +41,10 @@ class Sale extends Model
         'movies',
         'numberOfMoviesOrHour',
         'startTime','endTime',
-        'numberOfExtraPerson','additionalTimeFee','corkageFee',
+        'numberOfExtraPerson',
+        'additionalTimeFee','corkageFee',
+        'discountFee','reservationFee',
+        'todayOrTomorrow'
 
     ];
 
@@ -96,6 +99,10 @@ class Sale extends Model
 
             $sales = self::create($input_form);
             $sales->items()->saveMany($items);
+
+
+
+
 
             $trackings = $sales->items->each(function ($item) use ($input_form) {
                 $tracking = new InventoryTracking([

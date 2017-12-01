@@ -27,5 +27,6 @@
         reservationfeeId : {{$reservationfeeId}},
         discountFee : {{$discountFee}},
         discountFeeId : {{$discountFeeId}},
+        todayOrTomorrow: '{{$todayOrTomorrow}}',
         }]"></walkinSales>
 @endsection

@@ -175,7 +175,10 @@ class RoomController extends Controller
     public function roomDetailsAndReceipt($id){
 
         $customer = Customer::findOrFail($id);
-
+        $endTimeParsed = Carbon::parse( $customer->endTime);
+        $startTimeParsed = Carbon::parse( $customer->startTime);
+        $endTime = $endTimeParsed->format('g:i A');
+        $startTime = $startTimeParsed->format('g:i A');
         $find = $customer->session;
 
         $roomChanges = Sale::where('session',$find);
@@ -220,6 +223,8 @@ class RoomController extends Controller
             ->with('saleItem',$saleItem)
             ->with('sessionId',$sessionId)
             ->with('customer',$customer)
+            ->with('startTime',$startTime)
+            ->with('endTime',$endTime)
             ->with('id',$sendId);        
     }
 
@@ -324,7 +329,7 @@ class RoomController extends Controller
         $discountFeeId = 7;
         $discountFee = 0;
         $corkageFeeId = 7;
-
+        $todayOrTomorrow = $request->todayOrTomorrow;
         switch ($roomType) {
             case "None":
                 $sendId = 7;
@@ -457,7 +462,7 @@ class RoomController extends Controller
                 $reservationFee = $request->reservationFee;
                 $additionalPersonFee = 0;
                 $roomPrice = 0;
-                $sendId = 1;
+                $sendId = 9;
                 $corkageFeeId = 4;
                 $numberOfExtraPersonId = 5;
                 $additionalTimeFeeId = 6;
@@ -467,7 +472,7 @@ class RoomController extends Controller
                 $additionalTimeFee = $request->additionalTimeFee;
                 $corkageFee = $request->corkageFee;
                 $discountFeeId = 7;
-                $discountFee = 0;
+                $discountFee = -$request->discountFee;
                 break;
             default:
                 $promoPrice = 0;
@@ -511,7 +516,8 @@ class RoomController extends Controller
             ->with('numberOfExtraPerson',$numberOfExtraPerson)->with('numberOfExtraPersonId',$numberOfExtraPersonId)
             ->with('movies',$movies)->with('numberOfMoviesOrHour',$numberOfMoviesOrHour)
             ->with('additionalTimeFee',$additionalTimeFee)->with('additionalTimeFeeId',$additionalTimeFeeId)
-            ->with('corkageFee',$corkageFee)->with('corkageFeeId',$corkageFeeId);
+            ->with('corkageFee',$corkageFee)->with('corkageFeeId',$corkageFeeId)
+            ->with('todayOrTomorrow',$todayOrTomorrow);
     }
 
 

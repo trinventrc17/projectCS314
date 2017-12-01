@@ -25,7 +25,9 @@
         additionalPersonFee : {{$additionalPersonFee}},
         reservationfee : {{$reservationFee}},
         reservationfeeId : {{$reservationfeeId}},
-
+        discountFee : {{$discountFee}},
+        discountFeeId : {{$discountFeeId}},
+        todayOrTomorrow : '{{$todayOrTomorrow}}',
 
         }]"></roomChanges>
 @endsection

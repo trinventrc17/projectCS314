@@ -27,38 +27,46 @@ class ExcelReports extends Controller
         $sales = SaleItem::with(['product','sale'])->get();
         $saleTotal = SaleItem::sum(DB::raw('price * quantity'));
         $date_query = 'All';
+        $date_query2 = 'All';
+
     	return view ('printables.sales.index')
             ->with('sales',$sales)
             ->with('saleTotal',$saleTotal)
-            ->with('date_query',$date_query);
+            ->with('date_query',$date_query)
+            ->with('date_query2',$date_query2);
     }
 
 
     public function salesCustomizedFilter(Request $request){
 
         $date_range = $request->date_range;
+        $date_range2 = $request->date_range2;
         $date_query = $date_range;
+        $date_query2 = $date_range2;
 
-        $sales = SaleItem::whereDate('created_at', $date_range)->get();
+        $sales = SaleItem::whereBetween('created_at',array($date_range,$date_range2))->get();
 
-        $saleTotal = SaleItem::whereDate('created_at', $date_range)
+        $saleTotal = SaleItem::whereBetween('created_at',array($date_range,$date_range2))
                 ->sum(DB::raw('price * quantity'));
 
 
     	return view ('printables.sales.index')
             ->with('sales',$sales)
             ->with('saleTotal',$saleTotal)
-            ->with('date_query',$date_query);
+            ->with('date_query',$date_query)
+            ->with('date_query2',$date_query2);
     }
 
 
     public function salesDefaultFilter (Request $request){
 
         $date_range = $request->date_range;
+        $date_range2 = $request->date_range2;
         $sales = SaleItem::whereDate('created_at', $date_range)->get();
         $saleTotal = 0;
         
         $date_query = $date_range;
+        $date_query2 = $date_range2;
 
         if($date_range == 'Select Filter'){
             $sales = SaleItem::with('product')->get();
@@ -97,7 +105,8 @@ class ExcelReports extends Controller
 
         return view ('printables.sales.index')
             ->with('sales',$sales)->with('saleTotal',$saleTotal)
-            ->with('date_query',$date_query);
+            ->with('date_query',$date_query)
+            ->with('date_query2',$date_query2);
 
     }
 
@@ -112,12 +121,13 @@ class ExcelReports extends Controller
     public function salesExcelPrintable(Request $request){
 
         $accept = $request->date_query;
-
-        Excel::create('reports',function($excel) use ($accept){
+        $accept2 = $request->date_query2;
+        Excel::create('reports',function($excel) use ($accept,$accept2){
 
             $date_range = $accept;
+            $date_range2 = $accept2;
 
-            $excel->sheet('reports',function($sheet) use ($date_range) {
+            $excel->sheet('reports',function($sheet) use ($date_range,$date_range2) {
                 $sales = SaleItem::with('product')->get();
                 $saleTotal = SaleItem::sum(DB::raw('price * quantity'));
                 $date_query = $date_range;
@@ -162,10 +172,10 @@ class ExcelReports extends Controller
 
 
                 else{
-                    $sales = SaleItem::whereDate('created_at', $date_range)->get();
+                $sales = SaleItem::whereBetween('created_at',array($date_range,$date_range2))->get();
 
-                    $saleTotal = SaleItem::whereDate('created_at', $date_range)
-                    ->sum(DB::raw('price * quantity'));
+                $saleTotal = SaleItem::whereBetween('created_at',array($date_range,$date_range2))
+                        ->sum(DB::raw('price * quantity'));
                 }
 
                 $sheet->loadView('printables.sales.printable')
@@ -241,6 +251,7 @@ class ExcelReports extends Controller
         $totalAll = $totalEarnings - $totalExpenses;
         
         $date_query = 'All';
+        $date_query2 = 'All';
         return view ('printables.earningsAndExpenses.index')
             ->with('dailyEarnings',$dailyEarnings-$dailyExpenses)
             ->with('weeklyEarnings',$weeklyEarnings-$weeklyExpenses)
@@ -250,33 +261,38 @@ class ExcelReports extends Controller
             ->with('expenses',$expenses)
             ->with('saleTotal',$saleTotal)
             ->with('totalEarnings',$totalAll)
-            ->with('date_query',$date_query);
+            ->with('date_query',$date_query)
+            ->with('date_query2',$date_query2);
     }
 
 
     public function earningsAndExpensesCustomizedFilter(Request $request){
 
         $date_range = $request->date_range;
+        $date_range2 = $request->date_range2;
         $date_query = $date_range;
+        $date_query2 = $date_range2;
 
-        $sales = SaleItem::whereDate('created_at', $date_range)->get();
+
+
+        $sales = SaleItem::whereBetween('created_at',array($date_range,$date_range2))->get();
 
         $earnings =DB::table('sale_items')
             ->select(DB::raw('DATE(created_at) as day'),DB::raw('sum(price * quantity) as total'))
-            ->whereDate('created_at', $date_range)
+            ->whereBetween('created_at',array($date_range,$date_range2))
             ->groupBy(DB::raw('DATE(created_at)') )
             ->orderByRaw('day DESC')
             ->get();
 
         $expenses =DB::table('expenses')
             ->select(DB::raw('DATE(created_at) as day'),DB::raw('sum(amount) as total'))
-            ->whereDate('created_at', $date_range)
+            ->whereBetween('created_at',array($date_range,$date_range2))
             ->groupBy(DB::raw('DATE(created_at)') )
             ->orderByRaw('day DESC')
             ->get();
 
-        $totalEarnings = SaleItem::whereDate('created_at', $date_range)->sum(DB::raw('price * quantity'));
-        $totalExpenses = Expenses::whereDate('created_at', $date_range)->sum(DB::raw('amount'));
+        $totalEarnings = SaleItem::whereBetween('created_at',array($date_range,$date_range2))->sum(DB::raw('price * quantity'));
+        $totalExpenses = Expenses::whereBetween('created_at',array($date_range,$date_range2))->sum(DB::raw('amount'));
 
 
         $monthlyEarnings= SaleItem::select(DB::raw('MONTH(created_at) month'))
@@ -319,10 +335,11 @@ class ExcelReports extends Controller
                 ->sum(DB::raw('amount'));
 
 
-
+        $totalAllEarnings = SaleItem::sum(DB::raw('price * quantity'));
+        $totalAlExpenses = Expenses::sum(DB::raw('amount'));
 
         $saleTotal = $totalEarnings - $totalExpenses;
-        $totalAll = $totalEarnings - $totalExpenses;
+        $totalAll = $totalAllEarnings - $totalAlExpenses;
         
         return view ('printables.earningsAndExpenses.index')
             ->with('dailyEarnings',$dailyEarnings-$dailyExpenses)
@@ -333,13 +350,17 @@ class ExcelReports extends Controller
             ->with('expenses',$expenses)
             ->with('saleTotal',$saleTotal)
             ->with('totalEarnings',$totalAll)
-            ->with('date_query',$date_query);
+            ->with('date_query',$date_query)
+            ->with('date_query2',$date_query2);
     }
 
 
     public function earningsAndExpensesDefaultFilter (Request $request){
 
         $date_range = $request->date_range;
+        $date_range2 = $request->date_range2;
+        $date_query = $date_range;
+        $date_query2 = $date_range2;
 
         $earnings =DB::table('sale_items')
                 ->select(DB::raw('DATE(created_at) as day'),DB::raw('sum(price * quantity) as total'))
@@ -353,7 +374,6 @@ class ExcelReports extends Controller
                 ->orderByRaw('day DESC')
                 ->get();
         
-        $date_query = $date_range;
         $totalEarnings = SaleItem::whereDate('created_at', $date_range)->sum(DB::raw('price * quantity'));
         $totalExpenses = Expenses::whereDate('created_at', $date_range)->sum(DB::raw('amount'));
 
@@ -403,8 +423,12 @@ class ExcelReports extends Controller
 
 
 
+        $totalAllEarnings = SaleItem::sum(DB::raw('price * quantity'));
+        $totalAlExpenses = Expenses::sum(DB::raw('amount'));
+
         $saleTotal = $totalEarnings - $totalExpenses;
-        $totalAll = $totalEarnings - $totalExpenses;
+        $totalAll = $totalAllEarnings - $totalAlExpenses;
+        
         if($date_range == 'Select Filter'){
             $earnings =DB::table('sale_items')
                 ->select(DB::raw('DATE(created_at) as day'),DB::raw('sum(price * quantity) as total'))
@@ -519,7 +543,8 @@ class ExcelReports extends Controller
             ->with('expenses',$expenses)
             ->with('saleTotal',$saleTotal)
             ->with('totalEarnings',$totalAll)
-            ->with('date_query',$date_query);
+            ->with('date_query',$date_query)
+            ->with('date_query2',$date_query2);
 
     }
 
@@ -528,12 +553,12 @@ class ExcelReports extends Controller
     public function earningsAndExpensesExcelPrintable(Request $request){
 
         $accept = $request->date_query;
-
-        Excel::create('reports',function($excel) use ($accept){
+        $accept2 = $request->date_query2;
+        Excel::create('reports',function($excel) use ($accept,$accept2){
 
             $date_range = $accept;
-
-            $excel->sheet('reports',function($sheet) use ($date_range) {
+            $date_range2 = $accept2;
+            $excel->sheet('reports',function($sheet) use ($date_range,$date_range2) {
 
             $earnings =DB::table('sale_items')
                 ->select(DB::raw('DATE(created_at) as day'),DB::raw('sum(price * quantity) as total'))
@@ -671,20 +696,20 @@ class ExcelReports extends Controller
                 else{
                     $earnings =DB::table('sale_items')
                         ->select(DB::raw('DATE(created_at) as day'),DB::raw('sum(price * quantity) as total'))
-                        ->whereDate('created_at', $date_range)
+                        ->whereBetween('created_at',array($date_range,$date_range2))
                         ->groupBy(DB::raw('DATE(created_at)') )
                         ->orderByRaw('day DESC')
                         ->get();
 
                     $expenses =DB::table('expenses')
                         ->select(DB::raw('DATE(created_at) as day'),DB::raw('sum(amount) as total'))
-                        ->whereDate('created_at', $date_range)
+                        ->whereBetween('created_at',array($date_range,$date_range2))
                         ->groupBy(DB::raw('DATE(created_at)') )
                         ->orderByRaw('day DESC')
                         ->get();
 
-                    $totalEarnings = SaleItem::whereDate('created_at', $date_range)->sum(DB::raw('price * quantity'));
-                    $totalExpenses = Expenses::whereDate('created_at', $date_range)->sum(DB::raw('amount'));
+                    $totalEarnings = SaleItem::whereBetween('created_at',array($date_range,$date_range2))->sum(DB::raw('price * quantity'));
+                    $totalExpenses = Expenses::whereBetween('created_at',array($date_range,$date_range2))->sum(DB::raw('amount'));
 
                     $saleTotal = $totalEarnings - $totalExpenses;
                 }

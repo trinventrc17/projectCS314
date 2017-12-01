@@ -8,9 +8,9 @@
 
         @yield('content')
 
-        
     </div>
     <!-- Scripts -->
+         @yield('scripts')
      <script type="text/javascript" src="{{ URL::asset('js/app.js') }}"></script>
      <script type="text/javascript" src="{{ URL::asset('js/all.js') }}"></script>
 </body>

@@ -18,8 +18,8 @@ class CreateCustomersTable extends Migration
             $table->string('name');
             $table->string('status');
             $table->string('session');
-            $table->string('startTime')->default('');
-            $table->string('endTime')->default('');
+            $table->dateTime('startTime')->nullable();
+            $table->dateTime('endTime')->nullable();
             $table->timestamps();
         });
     }
