@@ -26,9 +26,17 @@
                                 <form id="delete-customer" action="{{ url('posrooms/' . $customer->id) }}" method="POST" class="form-inline">
                                     <input type="hidden" name="_method" value="delete">
                                     {{ csrf_field() }}
+                                
+                                @if(Auth::user()->role_id != 1)
+                                @else    
                                     <input type="submit" value="Delete" class="btn btn-danger btn-xs pull-right btn-delete">
+                                @endif
+
                                 </form>
+                                @if(Auth::user()->role_id != 1)
+                                @else
                                 <a href="{{ url('posrooms/' . $customer->id . '/edit') }}" class="btn btn-primary btn-xs pull-right">Edit</a>
+                                @endif
                             </td>
                         </tr>
                     @empty

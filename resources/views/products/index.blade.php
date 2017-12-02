@@ -54,7 +54,11 @@
                                     {{ csrf_field() }}
 <!--                                     <input type="submit" value="Delete" class="btn btn-danger btn-xs pull-right btn-delete">
  -->                                </form>
+                                @if(Auth::user()->role_id != 1)
+                                @else
                                 <a href="{{ url('products/' . $product->id . '/edit') }}" class="btn btn-primary btn-xs pull-right">Edit</a>
+                                @endif
+
                             </td>
                         </tr>
                     @empty

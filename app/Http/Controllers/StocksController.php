@@ -9,6 +9,7 @@ use App\Stocks;
 use Auth;
 use DB;
 use Carbon;
+use App\InventoryTracking;
 class StocksController extends Controller
 {
     /**
@@ -202,6 +203,32 @@ class StocksController extends Controller
         $product = Product::find($request->name);
         $product->quantity += $request->quantity;
         $product->save();
+
+
+        $stocks = InventoryTracking::create([
+                    'user_id'    => Auth::user()->id,
+                    'product_id' => $product->id,
+                    'trackable_id' => 12,
+                    'trackable_type' => 'App\ReceivingItem'
+
+            ]);
+
+
+
+            $trackings = $sales->items->each(function ($item) use ($input_form) {
+                $tracking = new InventoryTracking([
+                    'user_id'    => $input_form['user_id'],
+                    'product_id' => $item['product_id'],
+                ]);
+
+                // update qty
+                $product = Product::find($item['product_id']);
+                $product->quantity += $item['quantity'];
+                $product->save();
+
+                $item->trackings()->save($tracking);
+            });
+
 
 
         return redirect('stocks')
